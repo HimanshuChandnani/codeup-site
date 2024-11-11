@@ -50,6 +50,9 @@ export const ArrowLink = styled.p`
     transition: 0.2s;
     align-self: flex-start;
     cursor: pointer;
+    background-color: unset;
+    border: none;
+    outline: none;
 
     &::after {
         content: "→";

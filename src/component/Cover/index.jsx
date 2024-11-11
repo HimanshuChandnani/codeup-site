@@ -7,7 +7,7 @@ const Cover = () => {
     const bracket = ["{", "}"];
 
     return (
-        <Wrapper>
+        <Wrapper className="pt-5">
             <div className="video">
                 <video autoPlay muted loop src={video}></video>
             </div>
@@ -20,7 +20,7 @@ const Cover = () => {
                         Let us understand where you are. Lets plan a roadmap and break the barrier.
                     </p>
                 </div>
-                <CodeupButton className="mt-5">Enroll into Codeup ACE Academy</CodeupButton>
+                <CodeupButton className="mt-5">Get Started</CodeupButton>
             </div>
         </Wrapper>
     );

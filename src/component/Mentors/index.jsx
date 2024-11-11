@@ -25,7 +25,7 @@ const Mentors = () => {
     return (
         <section className="py-5" id="mentors">
             <div className="container">
-                <Title>Mentors</Title>
+                <Title>Guest Mentors</Title>
                 <SlickSlider className="" details={details} />
             </div>
         </section>

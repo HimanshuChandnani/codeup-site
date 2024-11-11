@@ -25,7 +25,7 @@ const SlickSlider = ({ details = "", type = "normal", theme = "light", openPara 
             {
                 breakpoint: 778,
                 settings: {
-                    slidesToShow: type === "partner" ? 2 : 1,
+                    slidesToShow: type === "partner" ? 1.5 : 1,
                     dots: true,
                 },
             },

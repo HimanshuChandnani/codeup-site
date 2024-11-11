@@ -2,11 +2,10 @@ import styled from "styled-components";
 
 const Wrapper = styled.header`
     width: 100%;
-    background-color: #0b22398a;
+    background-color: ${(props) => (props.theme === "blur" ? "#0b22398a" : "#0B2239")};
     backdrop-filter: blur(5px);
-    z-index: ${(props) => (props.hide === "true" ? 1 : 2)};
-    position: ${(props) => (props.hide === "true" ? "unset" : "fixed")};
-    opacity: ${(props) => (props.hide === "true" ? "0" : "1")};
+    z-index: 2;
+    position: fixed;
     box-shadow: 0 0 5px 1px #ffffff26;
 
     /* .blur-bg {
@@ -32,7 +31,7 @@ const Wrapper = styled.header`
     }
 
     .nav-link {
-        color: white !important;
+        color: ${(props) => (props.theme === "light" ? "#000 !important" : "#fff !important")};
         font-weight: 600;
         cursor: pointer;
         position: relative;
@@ -42,14 +41,14 @@ const Wrapper = styled.header`
         display: flex;
         justify-content: center;
         &:hover {
-            color: #ddd !important;
+            color: ${(props) => (props.theme === "light" ? "#0b2239 !important" : "#ddd !important")};
         }
         &:before {
             content: "";
             position: absolute;
             width: 0%;
             bottom: -8px;
-            background-color: white;
+            background-color: ${(props) => (props.theme === "light" ? "#0b2239" : "#fff")};
             height: 3px;
             transition: 0.2s;
         }

@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "./style";
 import logo from "../../images/full-logo-white.a0d780b267862c65f814.png";
-import { contactOpen, scrollCustom, termsOpen } from "../Utils/utils";
+import { codeupShowOpen, contactOpen, scrollCustom, termsOpen } from "../Utils/utils";
 
 const Footer = () => {
     return (
@@ -36,6 +36,7 @@ const Footer = () => {
                         <a onClick={() => scrollCustom("#team")}>About</a>
                         <a onClick={contactOpen}>Contact</a>
                         <a onClick={() => scrollCustom("#faq")}>FAQs</a>
+                        <a onClick={codeupShowOpen}>The Codeup Show</a>
                     </div>
                     <div className="navi col-lg-2 col-md-3 col-6">
                         <a onClick={() => scrollCustom("#partners")}>Partnership</a>

@@ -132,9 +132,8 @@ const Card = styled.div`
     }
     .partner {
         width: 100% !important;
-        max-height: 8vw;
-        height: 80px;
         object-fit: contain;
+        max-height: 80px;
     }
 `;
 

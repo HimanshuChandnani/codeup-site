@@ -4,22 +4,27 @@ import Header from "../Header";
 import Cover from "../Cover";
 import Partner from "../Partner";
 import $ from "jquery";
+import Ribbon from "../Ribbon";
 
 const HeaderGroup = () => {
     // Function to set the height dynamically
     const setFullHeight = () => {
         const fullHeightDiv = document.querySelector(".full-height-div");
-        fullHeightDiv.style.height = `${window.innerHeight}px`;
+        try {
+            fullHeightDiv.style.height = `${window.innerHeight}px`;
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     // Set the full height on load and resize
     $(document).ready(() => setFullHeight());
-    window.addEventListener("load", setFullHeight);
     window.addEventListener("resize", setFullHeight);
 
     return (
         <Wrapper className="full-height-div">
-            <Header />
+            {/* <Ribbon /> */}
+            <Header theme="blur" />
             <Cover />
             <Partner />
         </Wrapper>

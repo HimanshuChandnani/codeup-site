@@ -19,7 +19,16 @@ export const termsOpen = () => {
 
 export const termsClose = () => {
     terms.addClass("closed-class");
-    $(".one, .two, .three").val("");
+};
+
+let codeupShow;
+$(document).ready(() => (codeupShow = $("#codeupShow")));
+export const codeupShowOpen = () => {
+    codeupShow.removeClass("closed-class");
+};
+
+export const codeupShowClose = () => {
+    codeupShow.addClass("closed-class");
 };
 
 export const scrollCustom = (id, elem) => {

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
-    background-image: linear-gradient(to top, #0b2239 20%, transparent);
+    background-image: linear-gradient(to top, #0b2239 20%, transparent 70%, #0b2239 100%);
     text-align: center;
     position: relative;
     overflow: hidden;
