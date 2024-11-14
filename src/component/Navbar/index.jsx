@@ -5,7 +5,7 @@ import $ from "jquery";
 const Navbar = ({ itemList = "", theme = "dark" }) => {
     let navItem = [];
     for (let i of itemList) {
-        navItem.push(<NavbarItem key={i.value} value={i.value} scrollToElem={i.scrollToElem} func={i.func} customClass={i.customClass} element={i.element} />);
+        navItem.push(<NavbarItem key={i.value} value={i.value} scrollToElem={i.scrollToElem} func={i.func} customClass={i.customClass} element={i.element} dropdown={i.dropdown} items={i.items} />);
     }
 
     // Navbar
@@ -36,9 +36,7 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                         x
                     </button>
                 </div>
-                <ul className="navbar-nav">
-                    {navItem} {/* This is where the navbar item gets added to */}
-                </ul>
+                <ul className="navbar-nav">{navItem}</ul>
             </div>
         </nav>
     );

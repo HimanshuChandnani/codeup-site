@@ -3,7 +3,7 @@ import logoWhite from "../../images/full-logo-white.a0d780b267862c65f814.png";
 import logoBlack from "../../images/full-logo-black.dc3e624a01f5dc34c84d.png";
 import Navbar from "../Navbar";
 import Wrapper from "./style";
-import Ribbon from "../Ribbon";
+// import Ribbon from "../Ribbon";
 
 const Header = ({ theme = "dark" }) => {
     const navbarItems = [
@@ -11,13 +11,21 @@ const Header = ({ theme = "dark" }) => {
         { value: "Alma Mater", scrollToElem: "#alma-mater" },
         { value: "Team", scrollToElem: "#team" },
         { value: "Events", scrollToElem: "#event" },
+        {
+            value: "Programs",
+            dropdown: true,
+            items: [
+                { value: "Ambassador", link: "/ambassador" },
+                { value: "Codehack", link: "/ambassador/git" },
+            ],
+        },
         { value: "Contact", func: "contact_open()", customClass: "float-right ml-lg-3 ml-0 mb-2", element: "button" },
     ];
 
     return (
         <>
             <Wrapper theme={theme}>
-                <Ribbon />
+                {/* <Ribbon /> */}
                 <div className="blur-bg"></div>
                 <div id="navigation" className="container pt-2">
                     <div className="row align-items-center">

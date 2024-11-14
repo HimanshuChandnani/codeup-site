@@ -1,31 +1,26 @@
+import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import { ArrowLink } from "../StyledComponents/style";
+
 const FormModal = () => {
+    const [lgShow, setLgShow] = useState(false);
+
     return (
         <>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
-
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">
-                                Modal title
-                            </h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">...</div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary">
-                                Save changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ArrowLink as="button" onClick={() => setLgShow(true)}>
+                Register Now!!
+            </ArrowLink>
+            <Modal size="xl" show={lgShow} onHide={() => setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
+                <Modal.Header>
+                    <Modal.Title id="example-modal-sizes-title-lg">CodeHack Registeration</Modal.Title>
+                    <button className="btn btn-danger close btn-close" aria-label="Close" onClick={() => setLgShow(false)} style={{ margin: "1px", paddingLeft: "4px", paddingTop: "0", paddingRight: "4px", paddingBottom: "0" }}>
+                        x
+                    </button>
+                </Modal.Header>
+                <Modal.Body>
+                    <iframe style={{ width: "100%" }} src="https://docs.google.com/forms/d/e/1FAIpQLScYdkEsTYbx5XFcv2mhwLqTNL9IokyMRv-Q2ln4bbdUdtFv0Q/viewform?vc=0&c=0&w=1&flr=0" frameBorder="0" title="Form for codehack registeration"></iframe>
+                </Modal.Body>
+            </Modal>
         </>
     );
 };

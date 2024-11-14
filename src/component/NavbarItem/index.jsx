@@ -4,7 +4,7 @@ import { contactOpen, scrollCustom } from "../Utils/utils";
 import $ from "jquery";
 
 // const Navbaritem = (props = {value: 'undefined', scrollToElem: '', func: '', customClass: 'nav-link bottomp pb-4', elem: 'a'}) => {
-const Navbaritem = ({ value = "undefined", scrollToElem = "", customClass = "nav-link bottomp pb-3", element = "a" }) => {
+const Navbaritem = ({ value = "undefined", scrollToElem = "", customClass = "nav-link bottomp pb-3", element = "a", dropdown = false, items }) => {
     const navbarHide = () => {
         const navbar = $("#collapsibleNavbar");
         navbar
@@ -14,6 +14,28 @@ const Navbaritem = ({ value = "undefined", scrollToElem = "", customClass = "nav
             .removeClass("custom-nav")
             .removeClass("show");
     };
+
+    if (dropdown) {
+        const allItems = [];
+        for (let i of items) {
+            allItems.push(
+                <li>
+                    <a href={i.link}>{i.value}</a>
+                </li>
+            );
+        }
+
+        return (
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    {value}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">{allItems}</ul>
+            </li>
+        );
+    }
+
     if (element === "button") {
         return (
             <li className="nav-item">

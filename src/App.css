@@ -30,3 +30,21 @@
     color: white;
 }
 
+.modal{
+    height: -webkit-fill-available;
+}
+.modal .modal-dialog{
+    height: -webkit-fill-available;
+}
+.modal .modal-dialog .modal-content{
+    height: -webkit-fill-available;
+}
+.modal .modal-dialog .modal-content .modal-body{
+    height: 100%;
+}
+.modal .modal-dialog .modal-content .modal-body iframe{
+    height: 100%;
+    background-image: url("/src/images/Animation\ -\ 1731310376081.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}

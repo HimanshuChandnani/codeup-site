@@ -9,7 +9,6 @@ import HeaderGroup from "../../component/HeaderGroup";
 import Mentors from "../../component/Mentors";
 import Team from "../../component/Team";
 import CodeupShow from "../../component/CodeupShow";
-import Ribbon from "../../component/Ribbon";
 
 function Home() {
     return (

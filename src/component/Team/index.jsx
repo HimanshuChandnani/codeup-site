@@ -1,7 +1,6 @@
 import React from "react";
 import priyanka from "../../images/priyanka.png";
 import kushal from "../../images/Kushal.png";
-import chandni from "../../images/chandni.jpg";
 import himanshu from "../../images/himanshu.png";
 import vinita from "../../images/vinita.jpg";
 import chirag from "../../images/chirag.png";

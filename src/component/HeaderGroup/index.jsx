@@ -4,7 +4,7 @@ import Header from "../Header";
 import Cover from "../Cover";
 import Partner from "../Partner";
 import $ from "jquery";
-import Ribbon from "../Ribbon";
+// import Ribbon from "../Ribbon";
 
 const HeaderGroup = () => {
     // Function to set the height dynamically

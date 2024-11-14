@@ -7,7 +7,7 @@ const Wrapper = styled.div`
         .container {
             padding: 20px 15px;
             span {
-                width: calc(100% - 175px);
+                width: calc(100% - 150px);
                 display: inline-block;
             }
             a {
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
             font-size: 10px;
         }
         .ribbon .container span {
-            width: calc(100% - 165px) !important;
+            width: calc(100% - 120px) !important;
         }
         .ribbon-container .close {
             font-size: 12px;
