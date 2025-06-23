@@ -1,27 +1,26 @@
 import React from "react";
-import logoWhite from "../../images/full-logo-white.a0d780b267862c65f814.png";
-import logoBlack from "../../images/full-logo-black.dc3e624a01f5dc34c84d.png";
+import logoWhite from "../../images/full-logo-white.a0d780b267862c65f814.webp";
+import logoBlack from "../../images/full-logo-black.dc3e624a01f5dc34c84d.webp";
 import Navbar from "../Navbar";
 import Wrapper from "./style";
-// import Ribbon from "../Ribbon";
 
-const Header = ({ theme = "dark" }) => {
-    const navbarItems = [
-        { value: "Mentors", scrollToElem: "#mentors" },
-        { value: "Alma Mater", scrollToElem: "#alma-mater" },
-        { value: "Team", scrollToElem: "#team" },
-        { value: "Events", scrollToElem: "#event" },
-        {
-            value: "Programs",
-            dropdown: true,
-            items: [
-                { value: "Ambassador", link: "/ambassador" },
-                { value: "Codehack", link: "/ambassador/git" },
-            ],
-        },
-        { value: "Contact", func: "contact_open()", customClass: "float-right ml-lg-3 ml-0 mb-2", element: "button" },
-    ];
+const navbarItemsDefault = [
+    { value: "Mentors", scrollToElem: "#mentors" },
+    { value: "Alma Mater", scrollToElem: "#alma-mater" },
+    { value: "Team", scrollToElem: "#team" },
+    { value: "Events", scrollToElem: "#event" },
+    {
+        value: "Programs",
+        dropdown: true,
+        items: [
+            { value: "Ambassador", link: "/ambassador" },
+            { value: "Codehack", link: "/ambassador/git" },
+        ],
+    },
+    // { value: "Contact", func: "contact_open()", customClass: "float-end ml-lg-3 ml-0 mb-2", element: "button" },
+];
 
+const Header = ({ theme = "dark", navbarItems = navbarItemsDefault }) => {
     return (
         <>
             <Wrapper theme={theme}>
@@ -30,7 +29,7 @@ const Header = ({ theme = "dark" }) => {
                 <div id="navigation" className="container pt-2">
                     <div className="row align-items-center">
                         <div className="col-lg-3 col-6 bottomp pb-3">
-                            <a href="#">
+                            <a href="/">
                                 <img className="logo" src={theme === "light" ? logoBlack : logoWhite} alt="Codeup logo" />
                             </a>
                         </div>

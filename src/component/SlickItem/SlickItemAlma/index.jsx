@@ -6,7 +6,7 @@ const SlickItemAlma = ({ image = "a", name = "ERROR", theme = "light", para = "u
     return (
         <Card className="row" theme={theme}>
             <div className="col-md-3">
-                <img className="side-image" src={image} alt="alma-mater" />
+                <img className="side-image" src={image} alt="name" />
             </div>
             <div className="col-md-9 mt-md-0 mt-4">
                 <div className="text">

@@ -12,9 +12,7 @@ const Contact = () => {
                         <h2 className="color-light">Contact Us</h2>
                     </div>
                     <div className="col-3">
-                        <button onClick={contactClose} className="btn btn-danger close">
-                            x
-                        </button>
+                        <button onClick={contactClose} className="btn btn-close close"></button>
                     </div>
                 </div>
             </div>

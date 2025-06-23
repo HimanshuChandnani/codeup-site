@@ -19,19 +19,21 @@ const Navbaritem = ({ value = "undefined", scrollToElem = "", customClass = "nav
         const allItems = [];
         for (let i of items) {
             allItems.push(
-                <li>
+                <li key={i.value}>
                     <a href={i.link}>{i.value}</a>
                 </li>
             );
         }
 
         return (
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <li className="dropdown nav-link bottomp pb-3">
+                <a className="dropdown-toggle" data-toggle="dropdown" href="#">
                     {value}
-                    <span class="caret"></span>
+                    <span className="caret"></span>
                 </a>
-                <ul class="dropdown-menu">{allItems}</ul>
+                <ul className="dropdown-menu" style={{ position: "absolute" }}>
+                    {allItems}
+                </ul>
             </li>
         );
     }

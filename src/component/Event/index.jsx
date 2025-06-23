@@ -1,7 +1,7 @@
 import React from "react";
-import event3 from "../../images/codeup collage students 2.png";
-import event2 from "../../images/codeup collage students.png";
-import event1 from "../../images/codeup collage 3.png";
+import event3 from "../../images/codeup collage students 2.webp";
+import event2 from "../../images/codeup collage students.webp";
+import event1 from "../../images/codeup collage 3.webp";
 import SlickSlider from "../SlickSlider";
 import { Title } from "../StyledComponents/style";
 

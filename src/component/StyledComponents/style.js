@@ -18,6 +18,16 @@ export const CodeupButton = styled.button`
     font-weight: bold;
     padding: 8px 30px;
     border: none;
+
+    &:hover {
+        background-color: #3fd47b;
+    }
+
+    &:disabled {
+        background-color: #91c9a8;
+        color: #777;
+        cursor: default;
+    }
 `;
 
 export const Title = styled.p`
@@ -53,6 +63,7 @@ export const ArrowLink = styled.p`
     background-color: unset;
     border: none;
     outline: none;
+    position: relative;
 
     &::after {
         content: "→";
@@ -61,6 +72,8 @@ export const ArrowLink = styled.p`
         font-family: monospace;
         font-size: 20px;
         transition: 0.2s;
+        top: -3px;
+        position: absolute;
     }
 
     &:hover {

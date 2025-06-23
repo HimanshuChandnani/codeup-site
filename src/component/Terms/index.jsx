@@ -11,9 +11,7 @@ const Contact = () => {
                         <h2 className="color-light">Terms of use</h2>
                     </div>
                     <div className="col-3">
-                        <button onClick={termsClose} className="btn btn-danger close">
-                            x
-                        </button>
+                        <button onClick={termsClose} className="btn btn-close close"></button>
                     </div>
                 </div>
             </div>

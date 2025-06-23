@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "./style";
-import image1 from "../../images/Codeup Show_page-0001.jpg";
-import image2 from "../../images/The codeup show_page-0001.jpg";
+import image1 from "../../images/Codeup Show_page-0001.webp";
+import image2 from "../../images/The codeup show_page-0001.webp";
 import { codeupShowClose } from "../Utils/utils";
 
 const CodeupShow = () => {

@@ -43,11 +43,11 @@ const Wrapper = styled.header`
         &:hover {
             color: ${(props) => (props.theme === "light" ? "#0b2239 !important" : "#ddd !important")};
         }
-        &:before {
+        &:not(.no):before {
             content: "";
             position: absolute;
             width: 0%;
-            bottom: -8px;
+            bottom: -2px;
             background-color: ${(props) => (props.theme === "light" ? "#0b2239" : "#fff")};
             height: 3px;
             transition: 0.2s;
@@ -80,6 +80,38 @@ const Wrapper = styled.header`
         margin-left: auto;
         display: block;
         color: white;
+        filter: invert(1);
+    }
+
+    .dropdown {
+        a {
+            color: white !important;
+            text-decoration: none;
+        }
+
+        .dropdown-menu {
+            background-color: #0b22398a;
+            padding: 0;
+            left: -5px;
+            backdrop-filter: blur(40px);
+            border-radius: 5px;
+            left: unset;
+            li a {
+                padding: 10px 20px !important;
+                color: #ffffffd4 !important;
+                display: inline-block;
+
+                &:hover {
+                    /* background-color: #ffffff10; */
+                    color: white !important;
+                }
+
+                a {
+                    &:hover {
+                    }
+                }
+            }
+        }
     }
 `;
 

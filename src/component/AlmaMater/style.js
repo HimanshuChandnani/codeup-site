@@ -24,6 +24,7 @@ const Wrapper = styled.div`
                 margin-left: auto;
                 display: block;
                 color: white;
+                filter: invert(1);
             }
         }
 

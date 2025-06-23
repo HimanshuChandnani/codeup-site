@@ -6,7 +6,7 @@ const SlickItemEvent = ({ image = "", name = "" }) => {
         <Card>
             <div className="event">
                 <div className="imageHolder">
-                    <img src={image} alt="event" />
+                    <img src={image} alt={name} />
                 </div>
                 <div className="container">
                     <div className="row">

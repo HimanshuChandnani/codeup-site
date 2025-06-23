@@ -1,48 +1,32 @@
 // import React, { useState } from "react";
 // import $ from "jquery";
 import Wrapper from "./style";
-import FormModal from "../FormModal";
+// import FormModal from "../FormModal";
+// import PdfModal from "../PdfModal";
+import { ArrowLink } from "../StyledComponents/style";
+import { getUser } from "../GoogleSigninButton";
+import { useNavigate } from "react-router-dom";
 
 const Ribbon = () => {
-    // const [element, setElement] = useState("");
-
-    // const closeRibbon = () => {
-    //     setElement("");
-    //     localStorage.setItem("ribbonClosed", true);
-    // };
-
-    // $(document).ready(() => {
-    //     const ribbonCheck = () => {
-    //         console.log("hello");
-    //         const data = (
-    //             <div className="ribbon">
-    //                 <div className="ribbon-container">
-    //                     <div className="container">
-    //                         <span>We are organising Codehack 1.0 in GIT</span> <FormModal />
-    //                         {/* <button className="btn btn-danger close" onClick={closeRibbon}>
-    //                             x
-    //                         </button> */}
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         );
-    //         if (localStorage.getItem("ribbonClosed") === "true") return;
-    //         setElement(data);
-    //     };
-    // });
-
-    // const resetRibbon = () => {
-    //     localStorage.setItem("ribbonClosed", false);
-    //     console.log("hello");
-    // };
-    // alert(window.innerWidth);
-
+    const navigate = useNavigate();
+    const handleApply = () => {
+        if (getUser()?.user || null) {
+            navigate("/summer-internship");
+        } else {
+            window.signin("/summer-internship");
+        }
+    };
     return (
         <Wrapper id="ribbon" className="ribbon-body">
             <div className="ribbon">
                 <div className="ribbon-container">
                     <div className="container">
-                        <span>We are organising Codehack 1.0 in GIT</span> <FormModal />
+                        <span>Summer Internship 2025</span>
+                        {/* <PdfModal /> */}
+                        {/* <FormModal /> */}
+                        <ArrowLink as="a" href="https://oneup.codeup.in" className="">
+                            Apply Now!!
+                        </ArrowLink>
                         {/* <button className="btn btn-danger close" onClick={closeRibbon}>
                                 x
                             </button> */}

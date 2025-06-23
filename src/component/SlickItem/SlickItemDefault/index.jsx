@@ -4,7 +4,7 @@ import Card from "../style";
 const SlickItemDefault = ({ image = "a", name = "ERROR", work = "@ERROR", linkedin = "/", theme = "light" }) => {
     return (
         <Card as="a" href={linkedin} target="_blank" theme={theme}>
-            <img className="defaultImg" src={image} alt="mentor" />
+            <img className="defaultImg" src={image} alt={name} />
             <div className="text">
                 <h3>{name}</h3>
                 <p>{work}</p>

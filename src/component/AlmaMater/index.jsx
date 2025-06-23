@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import ritika from "../../images/ritika.79b0f5b5f3f4bb12932b.png";
-import vidhan from "../../images/vidhan.00f8e173c57e04c96e14.png";
-import shivali from "../../images/shivali.bcf432d17982bebb8836.png";
-import safal from "../../images/safal.jpg";
-import abhinav from "../../images/abhinav.jpg";
-// import rachit from "../../images/rachit.jpg";
-import abhiraj from "../../images/abhiraj.jpg";
-import anish from "../../images/anish.jpg";
+import ritika from "../../images/ritika.79b0f5b5f3f4bb12932b.webp";
+import vidhan from "../../images/vidhan.00f8e173c57e04c96e14.webp";
+import shivali from "../../images/shivali.bcf432d17982bebb8836.webp";
+import safal from "../../images/safal.webp";
+import abhinav from "../../images/abhinav.webp";
+// import rachit from "../../images/rachit.webp";
+import abhiraj from "../../images/abhiraj.webp";
+import anish from "../../images/anish.webp";
 import SlickSlider from "../SlickSlider";
 import { Title } from "../StyledComponents/style";
 import Wrapper from "./style";
@@ -71,9 +71,7 @@ const AlmaMater = () => {
             <div className="container">
                 <Title className="text-light">Alma Mater</Title>
                 <div id="full-para" className="full-para closed-class">
-                    <button className="btn btn-danger close" onClick={closePara}>
-                        x
-                    </button>
+                    <button className="btn close btn-close" onClick={closePara}></button>
                     {para}
                 </div>
                 <SlickSlider details={details} theme="dark" type="alma" openPara={openPara} />

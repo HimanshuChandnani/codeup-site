@@ -23,6 +23,14 @@ const Wrapper = styled.section`
         background-color: #0b2239;
     }
 
+    .oneup {
+        font-size: 28px;
+        font-weight: 300;
+        margin-top: 20px;
+        max-width: 800px;
+        margin: auto;
+    }
+
     h1 {
         font-size: 3rem;
         font-weight: 300;

@@ -29,6 +29,8 @@ const Wrapper = styled.div`
         margin-left: auto;
         display: block;
         color: white;
+        background-color: unset !important;
+        filter: invert(1);
     }
 
     .head {

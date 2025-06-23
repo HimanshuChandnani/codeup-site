@@ -26,7 +26,7 @@ const HeaderGroup = () => {
             {/* <Ribbon /> */}
             <Header theme="blur" />
             <Cover />
-            <Partner />
+            {/* <Partner /> */}
         </Wrapper>
     );
 };
