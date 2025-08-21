@@ -28,7 +28,7 @@ const CreatorApproval = () => {
     const fetchCreators = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${BASE_URL}admin/creators`);
+            const res = await axios.get(`${BASE_URL}admin/creators`, { headers: { Authorization: `Bearer ${getUser()?.token}` } });
             setCreators(res.data || []);
         } catch (error) {
             console.error("Failed to fetch creators", error);
@@ -41,7 +41,7 @@ const CreatorApproval = () => {
         setActionLoading((prev) => ({ ...prev, [id]: true }));
         try {
             // Call new backend API to change status
-            await axios.post(`${BASE_URL}admin/creators/${id}/${action}`);
+            await axios.post(`${BASE_URL}admin/creators/${id}/${action}`, null, { headers: { Authorization: `Bearer ${getUser()?.token}` } });
 
             // Update the local state after successful API calls
             setCreators((prev) => prev.map((creator) => (creator.id === id ? { ...creator, status: action === "approve" ? "approved" : "rejected" } : creator)));
