@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Button, Form, Spinner } from "react-bootstrap";
 import { getUser } from "../../GoogleSigninButton";
+import Select from "react-select";
+
+const filterOptions = [
+    { value: "all", label: "All Status" },
+    { value: "pending", label: "Pending" },
+    { value: "approved", label: "Approved" },
+    { value: "rejected", label: "Rejected" },
+];
 
 const CreatorApproval = () => {
     const [creators, setCreators] = useState([]);
-    const [filterStatus, setFilterStatus] = useState("all");
+    const [filterStatus, setFilterStatus] = useState(filterOptions[0]);
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState({});
+    const BASE_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchCreators();
@@ -19,7 +28,7 @@ const CreatorApproval = () => {
     const fetchCreators = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("https://codeup.in/dev/admin/creators");
+            const res = await axios.get(`${BASE_URL}admin/creators`);
             setCreators(res.data || []);
         } catch (error) {
             console.error("Failed to fetch creators", error);
@@ -32,22 +41,7 @@ const CreatorApproval = () => {
         setActionLoading((prev) => ({ ...prev, [id]: true }));
         try {
             // Call new backend API to change status
-            await axios.post(`https://codeup.in/dev/admin/creators/${id}/${action}`);
-
-            // For "approve" action, also update the role in the old backend by email
-            if (email) {
-                await axios.patch(
-                    `https://backend-auth-eosin.vercel.app/api/admin/users-by-email/${encodeURIComponent(email)}`,
-                    {
-                        role: action === "approve" ? "creator" : "user",
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${getUser()?.token}`,
-                        },
-                    }
-                );
-            }
+            await axios.post(`${BASE_URL}admin/creators/${id}/${action}`);
 
             // Update the local state after successful API calls
             setCreators((prev) => prev.map((creator) => (creator.id === id ? { ...creator, status: action === "approve" ? "approved" : "rejected" } : creator)));
@@ -59,24 +53,30 @@ const CreatorApproval = () => {
     };
 
     const filteredCreators = creators.filter((creator) => {
-        const matchesStatus = filterStatus === "all" || creator.status === filterStatus;
+        const matchesStatus = filterStatus.value === "all" || creator.status === filterStatus.value;
         const matchesSearch = Object.values(creator).join(" ").toLowerCase().includes(searchQuery.toLowerCase());
         return matchesStatus && matchesSearch;
     });
 
+    useEffect(() => {
+        console.log(filterStatus);
+    }, [filterStatus]);
+
     return (
         <div className="container py-4">
-            <h2 className="mb-4">Creator Approval Panel</h2>
-
-            <div className="d-flex flex-wrap gap-3 mb-4">
-                <Form.Select style={{ maxWidth: 200 }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+            <div className="row row-gap-3 mb-4">
+                {/* <Form.Select style={{ maxWidth: 200 }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                     <option value="all">All Statuses</option>
                     <option value="pending">Pending</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
-                </Form.Select>
-
-                <Form.Control type="search" placeholder="Search by any field..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ maxWidth: 300 }} />
+                </Form.Select> */}
+                <div className="col-lg-6">
+                    <Form.Control type="search" placeholder="Search by any field..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                </div>
+                <div className="col-lg-6">
+                    <Select options={filterOptions} value={filterStatus} onChange={setFilterStatus} />
+                </div>
             </div>
 
             {loading ? (
@@ -89,7 +89,7 @@ const CreatorApproval = () => {
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            {/* <th>Email</th> */}
                             <th>Mobile</th>
                             <th>LinkedIn</th>
                             <th>Job Title</th>
@@ -112,8 +112,11 @@ const CreatorApproval = () => {
                             filteredCreators.map((creator, index) => (
                                 <tr key={creator.id}>
                                     <td>{index + 1}</td>
-                                    <td>{creator.name}</td>
-                                    <td>{creator.email}</td>
+                                    <td>
+                                        <div>{creator.name}</div>
+                                        <div className="small text-secondary">{creator.email}</div>
+                                    </td>
+                                    {/* <td>{creator.email}</td> */}
                                     <td>{creator.mobile}</td>
                                     <td>
                                         <a href={creator.linkedin} target="_blank" rel="noopener noreferrer">
@@ -123,11 +126,11 @@ const CreatorApproval = () => {
                                     <td>{creator.job_title}</td>
                                     <td>{creator.company}</td>
                                     <td>{creator.experience_years} yrs</td>
-                                    <td>{creator.teaching_experience}</td>
+                                    <td style={{ maxWidth: 300, overflowWrap: "break-word" }}>{creator.teaching_experience}</td>
                                     <td>
                                         <span className={`badge bg-${getStatusColor(creator.status)}`}>{creator.status}</span>
                                     </td>
-                                    <td>{new Date(creator.created_at).toLocaleString()}</td>
+                                    <td style={{ whiteSpace: "nowrap" }}>{new Date(creator.created_at).toLocaleString()}</td>
                                     <td>
                                         <div className="d-flex">
                                             {creator.status !== "approved" && (

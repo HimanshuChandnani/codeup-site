@@ -6,6 +6,12 @@ const Wrapper = styled.nav`
         align-items: center;
         padding: 0;
     }
+
+    .dropdown-menu {
+        position: relative;
+        top: 90%;
+        right: 0;
+    }
 `;
 
 export default Wrapper;

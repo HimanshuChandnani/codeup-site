@@ -32,7 +32,7 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
     }
 
     useEffect(() => {
-        if (user && user.role === "admin") {
+        if (user && user.role.includes("admin")) {
             navigate("/admin");
         }
     }, [user]);
@@ -64,12 +64,12 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                             </a>
                             <ul className="dropdown-menu" style={{ position: "absolute" }}>
                                 <li>
-                                    <a href="#" onClick={(e) => e.preventDefault()}>
+                                    {/* <a href="#" onClick={(e) => e.preventDefault()}>
                                         Profile
                                     </a>
                                     <a href="#" onClick={(e) => e.preventDefault()}>
                                         Settings
-                                    </a>
+                                    </a> */}
                                     <a href="#" onClick={signOut}>
                                         Logout
                                     </a>
@@ -103,12 +103,12 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                                     </a>
                                     <ul className="dropdown-menu" style={{ position: "absolute" }}>
                                         <li>
-                                            <a href="#" onClick={(e) => e.preventDefault()}>
+                                            {/* <a href="#" onClick={(e) => e.preventDefault()}>
                                                 Profile
                                             </a>
                                             <a href="#" onClick={(e) => e.preventDefault()}>
                                                 Settings
-                                            </a>
+                                            </a> */}
                                             <a href="#" onClick={signOut}>
                                                 Logout
                                             </a>
