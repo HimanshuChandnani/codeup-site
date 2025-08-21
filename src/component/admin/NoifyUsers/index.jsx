@@ -53,7 +53,7 @@ const NotifyUsers = () => {
                 {/* Deep Link */}
                 <Form.Group className="mb-3" controlId="formDeepLink">
                     <Form.Label>Deep Link</Form.Label>
-                    <Form.Control type="url" placeholder="https://example.com/page" name="deepLink" value={formData.deepLink} onChange={handleChange} />
+                    <Form.Control type="text" placeholder="https://example.com/page" name="deepLink" value={formData.deepLink} onChange={handleChange} />
                 </Form.Group>
 
                 {/* Image URL */}
