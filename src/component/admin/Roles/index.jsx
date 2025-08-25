@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import { getUser } from "../../GoogleSigninButton";
+import { codeupAlert } from "../../Alert";
 
 const roleOptions = [
-    { value: "user", label: "User" },
+    { value: "user", label: "User", isFixed: true },
     { value: "admin", label: "Admin" },
     { value: "host", label: "Host" },
     { value: "creator", label: "Creator" },
@@ -21,6 +22,7 @@ const Roles = () => {
     const [sortBy, setSortBy] = useState("name");
     const [order, setOrder] = useState("asc");
     const [selectedRoles, setSelectedRoles] = useState([]);
+    const [totalUsers, setTotalUsers] = useState(0);
     const BASE_URL = process.env.REACT_APP_API_URL;
     // const BASE_URL = "https://dev.codeup.in/dev/";
 
@@ -42,8 +44,10 @@ const Roles = () => {
                 params,
             });
 
-            setUsers(response.data.users);
-            setMaxPage(response.data.totalPages || 1);
+            const data = response.data;
+            setUsers(data.users);
+            setTotalUsers(data.totalUsers || 0);
+            setMaxPage(data.totalPages || 1);
         } catch (error) {
             console.error("Error fetching users:", error.response?.data || error.message);
         } finally {
@@ -65,21 +69,71 @@ const Roles = () => {
         }
     };
 
+    // const handleRoleChange = async (userId, newRoles) => {
+    //     const roleValues = newRoles.map((role) => role.value);
+    //     try {
+    //         await axios.patch(
+    //             `${apiURL}/${userId}`,
+    //             { role: roleValues },
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${getUser()?.token}`,
+    //                 },
+    //             }
+    //         );
+    //         setUsers(users.map((user) => (user.id === userId ? { ...user, role: roleValues } : user)));
+    //     } catch (error) {
+    //         console.error("Error updating role:", error.response?.data || error.message);
+    //     }
+    // };
+
     const handleRoleChange = async (userId, newRoles) => {
-        const roleValues = newRoles.map((role) => role.value);
-        try {
-            await axios.patch(
-                `${apiURL}/${userId}`,
-                { role: roleValues },
-                {
-                    headers: {
-                        Authorization: `Bearer ${getUser()?.token}`,
-                    },
-                }
+        // Always keep fixed roles (like "user")
+        const enforcedRoles = roleOptions
+            .filter((r) => r.isFixed) // get fixed roles
+            .concat(newRoles.filter((r) => !r.isFixed)); // add only non-fixed roles
+
+        const roleValues = enforcedRoles.map((role) => role.value);
+
+        const updateRoles = async () => {
+            try {
+                await axios.patch(
+                    `${apiURL}/${userId}`,
+                    { role: roleValues },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${getUser()?.token}`,
+                        },
+                    }
+                );
+
+                setUsers(users.map((user) => (user.id === userId ? { ...user, role: roleValues } : user)));
+            } catch (error) {
+                console.error("Error updating role:", error.response?.data || error.message);
+            }
+        };
+
+        if (userId === getUser()?.user.id && !newRoles.includes("admin")) {
+            codeupAlert(
+                "You won't be able to access this page if you remove your admin role",
+                codeupAlert.close,
+                <div className="d-flex justify-content-between w-100">
+                    <button className="btn btn-secondary" onClick={codeupAlert.close}>
+                        Cancel
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                            updateRoles();
+                            codeupAlert.close();
+                        }}
+                    >
+                        Remove
+                    </button>
+                </div>
             );
-            setUsers(users.map((user) => (user.id === userId ? { ...user, role: roleValues } : user)));
-        } catch (error) {
-            console.error("Error updating role:", error.response?.data || error.message);
+        } else {
+            updateRoles();
         }
     };
 
@@ -92,6 +146,23 @@ const Roles = () => {
         } catch (error) {
             console.error("Error deleting user:", error.response?.data || error.message);
         }
+    };
+
+    const getPageNumbers = () => {
+        const buttonCount = window.innerWidth > 500 ? 6 : 2;
+        let start = Math.max(1, page - buttonCount / 2);
+        let end = Math.min(maxPage, page + buttonCount / 2);
+
+        // Ensure we always show 7 pages if possible
+        if (end - start < buttonCount) {
+            if (start === 1) {
+                end = Math.min(maxPage, start + buttonCount);
+            } else if (end === maxPage) {
+                start = Math.max(1, end - buttonCount);
+            }
+        }
+
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     };
 
     return (
@@ -118,6 +189,7 @@ const Roles = () => {
                 <p>Loading...</p>
             ) : users.length > 0 ? (
                 <>
+                    <h5>Total results: {totalUsers}</h5>
                     <div style={{ overflowX: "auto" }}>
                         <table className="table table-bordered">
                             <thead>
@@ -144,7 +216,15 @@ const Roles = () => {
                                             </td>
                                             {/* <td></td> */}
                                             <td style={{ minWidth: 200 }}>
-                                                <Select isMulti options={roleOptions} value={selectedRoles} onChange={(newRoles) => handleRoleChange(user.id, newRoles)} className="w-100" />
+                                                <Select
+                                                    isMulti
+                                                    options={roleOptions}
+                                                    value={roleOptions.filter((r) => user.role.includes(r.value))}
+                                                    onChange={(newRoles) => handleRoleChange(user.id, newRoles)}
+                                                    className="w-100"
+                                                    isClearable={false}
+                                                    closeMenuOnSelect={false}
+                                                />
                                             </td>
                                             {/* <td>
                                             <button className="btn btn-danger btn-sm w-100" onClick={() => handleDeleteUser(user.id)}>
@@ -157,14 +237,25 @@ const Roles = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center pb-3">
-                        <button className="btn btn-secondary" onClick={() => setPage((prev) => Math.max(1, prev - 1))} disabled={page <= 1}>
+                    <div className="d-flex justify-content-between align-items-center pb-3 flex-wrap flex-md-nowrap gap-2">
+                        <button className="btn btn-secondary order-2 order-md-1" onClick={() => setPage((prev) => Math.max(1, prev - 1))} disabled={page <= 1}>
                             Previous
                         </button>
-                        <span>
-                            Page {page} of {maxPage}
+                        <span className="d-flex gap-1 order-1 w-100 justify-content-center">
+                            {/* Page {page} of {maxPage} */}
+                            <button className="btn btn-light border" onClick={() => setPage(1)}>
+                                {"<<"}
+                            </button>
+                            {getPageNumbers().map((number) => (
+                                <button className={`btn btn-light border ${page === number ? "active" : ""}`} key={number} onClick={() => setPage(number)}>
+                                    {number}
+                                </button>
+                            ))}
+                            <button className="btn btn-light border" onClick={() => setPage(maxPage)}>
+                                {">>"}
+                            </button>
                         </span>
-                        <button className="btn btn-secondary" onClick={() => setPage((prev) => Math.min(maxPage, prev + 1))} disabled={page >= maxPage}>
+                        <button className="btn btn-secondary order-2 order-md-1" onClick={() => setPage((prev) => Math.min(maxPage, prev + 1))} disabled={page >= maxPage}>
                             Next
                         </button>
                     </div>
