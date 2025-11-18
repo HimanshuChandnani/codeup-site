@@ -30,7 +30,7 @@ const Wrapper = styled.footer`
         color: white !important;
         text-decoration: none;
         display: block;
-        margin: 25px 0;
+        margin-top: 25px;
         cursor: pointer;
     }
 

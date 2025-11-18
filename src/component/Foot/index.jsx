@@ -9,8 +9,8 @@ const Footer = ({ page = "home" }) => {
             {page === "home" && (
                 <Wrapper id="footer">
                     <div className="container py-5">
-                        <div className="row">
-                            <div className="follow col-lg-8 col-md-6">
+                        <div className="row justify-content-center">
+                            <div className="follow col-lg-8 col-md-6 text-white">
                                 <img src={logo} alt="codeup_logo" />
                                 <div className="icons my-4">
                                     <h4>Follow Us</h4>
@@ -37,6 +37,25 @@ const Footer = ({ page = "home" }) => {
                                     </a>
                                 </div>
                             </div>
+
+                            {/* <div className="col-lg-5 col-md-6 small text-white">
+                                <section id="contact">
+                                    <h4>Contact Us</h4>
+                                    <p>
+                                        <strong>Business Name:</strong> Codeup
+                                    </p>
+                                    <p>
+                                        <strong>Address:</strong> 19, Jain Vihar, Kamla Nehru Nagar, Ajmer Road, Jaipur, Rajasthan 302021, India
+                                    </p>
+                                    <p>
+                                        <strong>Phone:</strong> +91 87766 7350
+                                    </p>
+                                    <p>
+                                        <strong>Website:</strong> <a href="https://codeup.in">https://codeup.in</a>
+                                    </p>
+                                </section>
+                            </div> */}
+
                             <div className="navi col-lg-2 col-md-3 col-6">
                                 <a onClick={contactOpen}>Contact</a>
                                 <a onClick={() => scrollCustom("#faq")}>FAQs</a>

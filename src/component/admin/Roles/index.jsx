@@ -3,6 +3,7 @@ import axios from "axios";
 import Select from "react-select";
 import { getUser } from "../../GoogleSigninButton";
 import { codeupAlert } from "../../Alert";
+import RoleCard from "../RoleCard";
 
 const roleOptions = [
     { value: "user", label: "User", isFixed: true },
@@ -113,7 +114,7 @@ const Roles = () => {
             }
         };
 
-        if (userId === getUser()?.user.id && !newRoles.includes("admin")) {
+        if (userId === getUser()?.user.id && !roleValues.includes("admin")) {
             codeupAlert(
                 "You won't be able to access this page if you remove your admin role",
                 codeupAlert.close,
@@ -166,7 +167,7 @@ const Roles = () => {
     };
 
     return (
-        <div className="container">
+        <div className="">
             <div className="row row-gap-3 mb-3">
                 <div className="col-lg-6">
                     <input
@@ -189,53 +190,11 @@ const Roles = () => {
                 <p>Loading...</p>
             ) : users.length > 0 ? (
                 <>
-                    <h5>Total results: {totalUsers}</h5>
-                    <div style={{ overflowX: "auto" }}>
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th onClick={() => toggleSort("name")} style={{ cursor: "pointer" }}>
-                                        Name {sortBy === "name" && (order === "asc" ? "↑" : "↓")}
-                                    </th>
-                                    {/* <th onClick={() => toggleSort("email")} style={{ cursor: "pointer" }}>
-                                    Email {sortBy === "email" && (order === "asc" ? "↑" : "↓")}
-                                </th> */}
-                                    <th>Role</th>
-                                    {/* <th>Actions</th> */}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map((user) => {
-                                    const selectedRoles = roleOptions.filter((r) => user.role.includes(r.value));
-
-                                    return (
-                                        <tr key={user.id}>
-                                            <td>
-                                                <div>{user.name}</div>
-                                                <div className="small text-secondary">{user.email}</div>
-                                            </td>
-                                            {/* <td></td> */}
-                                            <td style={{ minWidth: 200 }}>
-                                                <Select
-                                                    isMulti
-                                                    options={roleOptions}
-                                                    value={roleOptions.filter((r) => user.role.includes(r.value))}
-                                                    onChange={(newRoles) => handleRoleChange(user.id, newRoles)}
-                                                    className="w-100"
-                                                    isClearable={false}
-                                                    closeMenuOnSelect={false}
-                                                />
-                                            </td>
-                                            {/* <td>
-                                            <button className="btn btn-danger btn-sm w-100" onClick={() => handleDeleteUser(user.id)}>
-                                                Delete
-                                            </button>
-                                        </td> */}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                    <p className="fw-medium mb-2">Total results: {totalUsers}</p>
+                    <div className="d-flex flex-column gap-3 pb-3">
+                        {users.map((user) => (
+                            <RoleCard user={user} handleRoleChange={handleRoleChange} />
+                        ))}
                     </div>
                     <div className="d-flex justify-content-between align-items-center pb-3 flex-wrap flex-md-nowrap gap-2">
                         <button className="btn btn-secondary order-2 order-md-1" onClick={() => setPage((prev) => Math.max(1, prev - 1))} disabled={page <= 1}>
