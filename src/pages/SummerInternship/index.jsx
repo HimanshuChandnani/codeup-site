@@ -4,7 +4,6 @@ import axios from "axios";
 import Header from "../../component/Header";
 import Footer from "../../component/Foot";
 import GoogleSignInButton, { getUser } from "../../component/GoogleSigninButton";
-import { Link } from "react-router-dom";
 
 const SummerInternship = () => {
     const [lgShow, setLgShow] = useState(false);

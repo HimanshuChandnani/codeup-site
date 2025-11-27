@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Spinner, Table, Alert, Container } from "react-bootstrap";
+import { api } from "../../../auth/apiClient";
 
 const UserQueries = () => {
     const [queries, setQueries] = useState([]);
@@ -13,7 +13,7 @@ const UserQueries = () => {
             try {
                 // const apiURL = "https://backend-auth-eosin.vercel.app/api/contact";
                 const apiURL = `${BASE_URL}contact`;
-                const response = await axios.get(apiURL);
+                const response = await api.get(apiURL);
                 // if (!response.ok) throw new Error("Failed to fetch user queries");
 
                 const data = response.data;

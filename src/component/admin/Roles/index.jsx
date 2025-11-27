@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
 import Select from "react-select";
-import { getUser } from "../../GoogleSigninButton";
 import { codeupAlert } from "../../Alert";
 import RoleCard from "../RoleCard";
+import { useAuth } from "../../../auth/useAuth";
+import { api } from "../../../auth/apiClient";
 
 const roleOptions = [
     { value: "user", label: "User", isFixed: true },
@@ -12,6 +12,7 @@ const roleOptions = [
     { value: "creator", label: "Creator" },
     { value: "mentor", label: "Mentor" },
     { value: "student", label: "Student" },
+    { value: "rr_organizer", label: "RR_Organizer" },
 ];
 
 const Roles = () => {
@@ -26,6 +27,7 @@ const Roles = () => {
     const [totalUsers, setTotalUsers] = useState(0);
     const BASE_URL = process.env.REACT_APP_API_URL;
     // const BASE_URL = "https://dev.codeup.in/dev/";
+    const { user, accessToken } = useAuth();
 
     const apiURL = `${BASE_URL}admin/users`;
 
@@ -40,8 +42,7 @@ const Roles = () => {
                 role: selectedRoles.map((r) => r.value).join(","),
             };
 
-            const response = await axios.get(apiURL, {
-                headers: { Authorization: `Bearer ${getUser()?.token}` },
+            const response = await api.get(apiURL, {
                 params,
             });
 
@@ -73,12 +74,12 @@ const Roles = () => {
     // const handleRoleChange = async (userId, newRoles) => {
     //     const roleValues = newRoles.map((role) => role.value);
     //     try {
-    //         await axios.patch(
+    //         await api.patch(
     //             `${apiURL}/${userId}`,
     //             { role: roleValues },
     //             {
     //                 headers: {
-    //                     Authorization: `Bearer ${getUser()?.token}`,
+    //                     Authorization: `Bearer ${accessToken}`,
     //                 },
     //             }
     //         );
@@ -98,15 +99,7 @@ const Roles = () => {
 
         const updateRoles = async () => {
             try {
-                await axios.patch(
-                    `${apiURL}/${userId}`,
-                    { role: roleValues },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${getUser()?.token}`,
-                        },
-                    }
-                );
+                await api.patch(`${apiURL}/${userId}`, { role: roleValues });
 
                 setUsers(users.map((user) => (user.id === userId ? { ...user, role: roleValues } : user)));
             } catch (error) {
@@ -114,7 +107,7 @@ const Roles = () => {
             }
         };
 
-        if (userId === getUser()?.user.id && !roleValues.includes("admin")) {
+        if (userId === user.id && !roleValues.includes("admin")) {
             codeupAlert(
                 "You won't be able to access this page if you remove your admin role",
                 codeupAlert.close,
@@ -140,9 +133,7 @@ const Roles = () => {
 
     const handleDeleteUser = async (userId) => {
         try {
-            await axios.delete(`${apiURL}/${userId}`, {
-                headers: { Authorization: `Bearer ${getUser()?.token}` },
-            });
+            await api.delete(`${apiURL}/${userId}`);
             setUsers(users.filter((user) => user.id !== userId));
         } catch (error) {
             console.error("Error deleting user:", error.response?.data || error.message);
@@ -192,8 +183,10 @@ const Roles = () => {
                 <>
                     <p className="fw-medium mb-2">Total results: {totalUsers}</p>
                     <div className="d-flex flex-column gap-3 pb-3">
-                        {users.map((user) => (
-                            <RoleCard user={user} handleRoleChange={handleRoleChange} />
+                        {users.map((user, index) => (
+                            <Fragment key={user.id}>
+                                <RoleCard user={user} handleRoleChange={handleRoleChange} />
+                            </Fragment>
                         ))}
                     </div>
                     <div className="d-flex justify-content-between align-items-center pb-3 flex-wrap flex-md-nowrap gap-2">

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import GoogleSignInButton, { getUser, signOut } from "../../component/GoogleSigninButton";
 import { NavDropdown, Nav } from "react-bootstrap";
 import Roles from "../../component/admin/Roles";
 import CreatorApproval from "../../component/admin/CreatorApproval";
@@ -9,6 +8,8 @@ import Wrapper from "./style";
 import Academy from "../../component/admin/Acadamy";
 import NotifyUsers from "../../component/admin/NoifyUsers";
 import { UserCheck, Users, LucideFileQuestion, GraduationCap, Bell } from "lucide-react";
+import { useAuth } from "../../auth/useAuth";
+import { CodeupButton } from "../../component/StyledComponents/style";
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AdminPage = () => {
     const defaultTab = urlParams.get("tab") || "roles";
 
     const [key, setKey] = useState(defaultTab);
-    const [user, setUser] = useState(getUser()?.user);
+    const { user, login, logout } = useAuth();
 
     // redirect non-admins
     useEffect(() => {
@@ -70,12 +71,12 @@ const AdminPage = () => {
                     <h3 className="mb-0">Admin Panel</h3>
                     {user ? (
                         <NavDropdown title={<img src={user.picture} className="rounded-circle object-fit-cover ms-1" alt="Profile" height="40" width="40" />} id="profile-dropdown" align="end">
-                            <NavDropdown.Item href="#" onClick={signOut}>
+                            <NavDropdown.Item href="#" onClick={logout}>
                                 Logout
                             </NavDropdown.Item>
                         </NavDropdown>
                     ) : (
-                        <GoogleSignInButton onSignIn={setUser} />
+                        <CodeupButton onClick={login}>Sign in</CodeupButton>
                     )}
                 </div>
             </div>

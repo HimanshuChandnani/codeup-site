@@ -8,6 +8,7 @@ const roleOptions = [
     { value: "creator", label: "Creator" },
     { value: "mentor", label: "Mentor" },
     { value: "student", label: "Student" },
+    { value: "rr_organizer", label: "RR_Organizer" },
 ];
 
 const RoleCard = ({ user, handleRoleChange }) => {

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import NavbarItem from "../NavbarItem";
 import $ from "jquery";
-import GoogleSignInButton, { getUser, signOut } from "../GoogleSigninButton";
 import Wrapper from "./style";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/useAuth";
+import { CodeupButton } from "../StyledComponents/style";
 
 const Navbar = ({ itemList = "", theme = "dark" }) => {
-    const [user, setUser] = useState(getUser()?.user || null);
+    const { user, login, logout } = useAuth();
     const navigate = useNavigate();
 
     let navItem = [];
@@ -32,23 +33,10 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
     }
 
     useEffect(() => {
-        if (user && user.role.includes("admin")) {
+        if (user && user.role.includes("admin") && window.location.pathname !== "/admin") {
             navigate("/admin");
         }
     }, [user]);
-
-    useEffect(() => {
-        const handleStorageChange = () => {
-            const updatedUser = getUser()?.user || null;
-            setUser(updatedUser);
-        };
-
-        window.addEventListener("userUpdate", handleStorageChange);
-
-        return () => {
-            window.removeEventListener("userUpdate", handleStorageChange);
-        };
-    }, []);
 
     return (
         <Wrapper className="navbar navbar-expand-lg navbar-dark float-end text-end justify-content-end p-0">
@@ -70,7 +58,7 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                                     <a href="#" onClick={(e) => e.preventDefault()}>
                                         Settings
                                     </a> */}
-                                    <a href="#" onClick={signOut}>
+                                    <a href="#" onClick={logout}>
                                         Logout
                                     </a>
                                 </li>
@@ -78,7 +66,8 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                         </li>
                     ) : (
                         <li className="pl-lg-3 nav-link pb-2 pt-0 me-0 no">
-                            <GoogleSignInButton onSignIn={setUser} />
+                            {/* <GoogleSignInButton onSignIn={setUser} /> */}
+                            <CodeupButton onClick={login}>Sign in</CodeupButton>
                         </li>
                     )}
                     {/* </li> */}
@@ -109,7 +98,7 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                                             <a href="#" onClick={(e) => e.preventDefault()}>
                                                 Settings
                                             </a> */}
-                                            <a href="#" onClick={signOut}>
+                                            <a href="#" onClick={logout}>
                                                 Logout
                                             </a>
                                         </li>
@@ -117,7 +106,7 @@ const Navbar = ({ itemList = "", theme = "dark" }) => {
                                 </li>
                             ) : (
                                 <li className="pl-lg-3 nav-link pb-2 pt-0 me-0 no">
-                                    <GoogleSignInButton onSignIn={setUser} />
+                                    <CodeupButton onClick={login}>Sign in</CodeupButton>
                                 </li>
                             )}
                             {/* </li> */}

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Table, Button, Form, Spinner } from "react-bootstrap";
-import { getUser } from "../../GoogleSigninButton";
 import Select from "react-select";
+import { useAuth } from "../../../auth/useAuth";
+import { api } from "../../../auth/apiClient";
 
 const filterOptions = [
     { value: "all", label: "All Status" },
@@ -20,6 +20,7 @@ const CreatorApproval = () => {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState({});
     const BASE_URL = process.env.REACT_APP_API_URL;
+    const { accessToken } = useAuth();
 
     useEffect(() => {
         fetchCreators();
@@ -28,7 +29,7 @@ const CreatorApproval = () => {
     const fetchCreators = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${BASE_URL}admin/creators`, { headers: { Authorization: `Bearer ${getUser()?.token}` } });
+            const res = await api.get(`${BASE_URL}admin/creators`);
             setCreators(res.data || []);
         } catch (error) {
             console.error("Failed to fetch creators", error);
@@ -41,7 +42,7 @@ const CreatorApproval = () => {
         setActionLoading((prev) => ({ ...prev, [id]: true }));
         try {
             // Call new backend API to change status
-            await axios.post(`${BASE_URL}admin/creators/${id}/${action}`, null, { headers: { Authorization: `Bearer ${getUser()?.token}` } });
+            await api.post(`${BASE_URL}admin/creators/${id}/${action}`, null);
 
             // Update the local state after successful API calls
             setCreators((prev) => prev.map((creator) => (creator.id === id ? { ...creator, status: action === "approve" ? "approved" : "rejected" } : creator)));

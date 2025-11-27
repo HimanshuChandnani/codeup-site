@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { CodeupButton } from "../../StyledComponents/style";
-import axios from "axios";
-import { getUser } from "../../GoogleSigninButton";
+import { useAuth } from "../../../auth/useAuth";
+import { api } from "../../../auth/apiClient";
 
 const NotifyUsers = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ const NotifyUsers = () => {
         imageUrl: "",
         channel: "notification", // default
     });
+    const { accessToken } = useAuth();
     const BASE_URL = process.env.REACT_APP_API_URL;
 
     const handleChange = (e) => {
@@ -22,7 +23,7 @@ const NotifyUsers = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${BASE_URL}sendNotificationToAll`, formData, { headers: { Authorization: `Bearer ${getUser()?.token}` } });
+            const res = await api.post(`${BASE_URL}sendNotificationToAll`, formData);
             console.log(res);
         } catch (e) {
             console.error(e);

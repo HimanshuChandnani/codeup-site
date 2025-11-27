@@ -3,6 +3,11 @@ import ReactDOM from "react-dom/client";
 // import './index.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
+import AuthProvider from "./auth/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+    <AuthProvider>
+        <App />
+    </AuthProvider>
+);

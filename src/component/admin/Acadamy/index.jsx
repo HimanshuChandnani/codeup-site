@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Modal, Button, Form, Table } from "react-bootstrap";
 import AsyncSelect from "react-select/async";
 import debounce from "lodash/debounce";
-import { getUser } from "../../GoogleSigninButton";
 import { CodeupButton } from "../../StyledComponents/style";
 import { codeupAlert } from "../../Alert";
-import { DeleteIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon } from "lucide-react";
 import styled from "styled-components";
+import { useAuth } from "../../../auth/useAuth";
+import { api } from "../../../auth/apiClient";
 
 const ResponsiveCodeupButton = styled(CodeupButton)`
     @media (max-width: 992px) {
@@ -35,10 +35,11 @@ const Academy = () => {
     const [showStudentModal, setShowStudentModal] = useState(false);
     const [showMentorModal, setShowMentorModal] = useState(false);
     const BASE_URL = process.env.REACT_APP_API_URL;
+    const { accessToken } = useAuth();
 
     const fetchAcademies = async () => {
         try {
-            const res = await axios.get(`${BASE_URL}academy`, { headers: { authorization: `Bearer ${getUser()?.token}` } });
+            const res = await api.get(`${BASE_URL}academy`);
             setAcademies(res.data);
         } catch (err) {
             console.error("Error fetching academies:", err.message);
@@ -55,13 +56,7 @@ const Academy = () => {
 
     const handleSubmit = async () => {
         try {
-            const res = editAcademy
-                ? await axios.put(`${BASE_URL}academy/${editAcademy.id}`, form, {
-                      headers: { Authorization: `Bearer ${getUser()?.token}` },
-                  })
-                : await axios.post(`${BASE_URL}academy`, form, {
-                      headers: { Authorization: `Bearer ${getUser()?.token}` },
-                  });
+            const res = editAcademy ? await api.put(`${BASE_URL}academy/${editAcademy.id}`, form) : await api.post(`${BASE_URL}academy`, form);
 
             console.log(res);
             setShowModal(false);
@@ -75,7 +70,7 @@ const Academy = () => {
 
     const fetchStudents = async (academyId) => {
         try {
-            const res = await axios.get(`${BASE_URL}academy/${academyId}/students`);
+            const res = await api.get(`${BASE_URL}academy/${academyId}/students`);
             setStudents(res.data);
             setManageAcademyId(academyId);
             setShowStudentModal(true);
@@ -86,7 +81,7 @@ const Academy = () => {
 
     const fetchMentors = async (academyId) => {
         try {
-            const res = await axios.get(`${BASE_URL}academy/${academyId}/mentors`);
+            const res = await api.get(`${BASE_URL}academy/${academyId}/mentors`);
             setMentors(res.data);
             setManageAcademyId(academyId);
             setShowMentorModal(true);
@@ -122,9 +117,7 @@ const Academy = () => {
     const fetchUsers = async (inputValue) => {
         if (!inputValue || inputValue.trim().length < 3) return [];
         try {
-            const res = await axios.get(`${BASE_URL}search/user?q=${encodeURIComponent(inputValue)}`, {
-                headers: { Authorization: `Bearer ${getUser()?.token}` },
-            });
+            const res = await api.get(`${BASE_URL}search/user?q=${encodeURIComponent(inputValue)}`);
             return res.data;
         } catch (e) {
             console.error("Failed to load users", e);
@@ -144,8 +137,8 @@ const Academy = () => {
 
     // const createStudent = async () => {
     //     try {
-    //         await axios.post(`${BASE_URL}academy/${manageAcademyId}/student`, studentForm, {
-    //             headers: { Authorization: `Bearer ${getUser()?.token}` },
+    //         await api.post(`${BASE_URL}academy/${manageAcademyId}/student`, studentForm, {
+    //             headers: { Authorization: `Bearer ${accessToken}` },
     //         });
     //         fetchStudents(manageAcademyId);
     //         setStudentForm({ name: "", email: "", picture: "", associated_institute: "" });
@@ -157,13 +150,7 @@ const Academy = () => {
         e.preventDefault();
         console.log(selectedUser);
         try {
-            await axios.post(
-                `${BASE_URL}academy/${manageAcademyId}/student`,
-                { name: selectedUser.name, email: selectedUser.email, picture: selectedUser.picture, userId: selectedUser.id },
-                {
-                    headers: { Authorization: `Bearer ${getUser()?.token}` },
-                }
-            );
+            await api.post(`${BASE_URL}academy/${manageAcademyId}/student`, { name: selectedUser.name, email: selectedUser.email, picture: selectedUser.picture, userId: selectedUser.id });
             // refresh the student list after successful addition
             fetchStudents(manageAcademyId); // or however you load students
             setSelectedUser(null);
@@ -176,13 +163,7 @@ const Academy = () => {
     const addMentor = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(
-                `${BASE_URL}academy/${manageAcademyId}/mentor`,
-                { name: selectedUser.name, email: selectedUser.email, picture: selectedUser.picture, userId: selectedUser.id },
-                {
-                    headers: { Authorization: `Bearer ${getUser()?.token}` },
-                }
-            );
+            await api.post(`${BASE_URL}academy/${manageAcademyId}/mentor`, { name: selectedUser.name, email: selectedUser.email, picture: selectedUser.picture, userId: selectedUser.id });
 
             fetchMentors(manageAcademyId);
             setSelectedUser(null);
@@ -194,8 +175,8 @@ const Academy = () => {
 
     // const createMentor = async () => {
     //     try {
-    //         await axios.post(`${BASE_URL}academy/${manageAcademyId}/mentor`, mentorForm, {
-    //             headers: { Authorization: `Bearer ${getUser()?.token}` },
+    //         await api.post(`${BASE_URL}academy/${manageAcademyId}/mentor`, mentorForm, {
+    //             headers: { Authorization: `Bearer ${accessToken}` },
     //         });
     //         fetchMentors(manageAcademyId);
     //         setMentorForm({ name: "", email: "", picture: "", contactNumber: "", yearsOfExperience: "", areaOfExpertise: "" });
@@ -217,9 +198,7 @@ const Academy = () => {
                     onClick={async () => {
                         codeupAlert();
                         try {
-                            await axios.delete(`${BASE_URL}academy/${id}`, {
-                                headers: { Authorization: `Bearer ${getUser()?.token}` },
-                            });
+                            await api.delete(`${BASE_URL}academy/${id}`);
                             fetchAcademies();
                             codeupAlert.close();
                         } catch (err) {
@@ -234,8 +213,8 @@ const Academy = () => {
         );
         // if (window.confirm("Are you sure you want to delete this academy?")) {
         //     try {
-        //         await axios.delete(`${BASE_URL}academy/${id}`, {
-        //             headers: { Authorization: `Bearer ${getUser()?.token}` },
+        //         await api.delete(`${BASE_URL}academy/${id}`, {
+        //             headers: { Authorization: `Bearer ${accessToken}` },
         //         });
         //         fetchAcademies();
         //     } catch (err) {
@@ -246,9 +225,7 @@ const Academy = () => {
 
     const deleteStudent = async (studentId) => {
         try {
-            await axios.delete(`${BASE_URL}academy/${manageAcademyId}/student/${studentId}`, {
-                headers: { Authorization: `Bearer ${getUser()?.token}` },
-            });
+            await api.delete(`${BASE_URL}academy/${manageAcademyId}/student/${studentId}`);
             fetchStudents(manageAcademyId);
         } catch (err) {
             console.error("Delete student error:", err.message);
@@ -257,9 +234,7 @@ const Academy = () => {
 
     const deleteMentor = async (mentorId) => {
         try {
-            await axios.delete(`${BASE_URL}mentor/${mentorId}`, {
-                headers: { Authorization: `Bearer ${getUser()?.token}` },
-            });
+            await api.delete(`${BASE_URL}mentor/${mentorId}`);
             fetchMentors(manageAcademyId);
         } catch (err) {
             console.error("Delete mentor error:", err.message);
