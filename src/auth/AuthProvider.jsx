@@ -76,6 +76,7 @@ export default function AuthProvider({ children }) {
             // Not logged in anywhere
             if (event.data.noSession) {
                 setLoading(false);
+                if (user) logout();
             }
         };
 
