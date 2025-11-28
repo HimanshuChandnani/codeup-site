@@ -44,7 +44,26 @@ export default function AuthProvider({ children }) {
     // Login: redirect to AUTH DOMAIN
     const login = () => {
         const redirect = window.location.origin;
-        window.location.href = `${GOOGLE_LOGIN_URL}?redirect=${redirect}`;
+        const height = 600;
+        const width = 500;
+        const left = (screen.availWidth - width) / 2;
+        const top = (screen.availHeight - height) / 2;
+
+        const popup = window.open(`${GOOGLE_LOGIN_URL}?redirect=${redirect}`, "popup", `width=${width},height=${height},top=${top},left=${left}`);
+        if (!popup) return alert("Popup blocked! Enable popups to sign in.");
+
+        const handler = (event) => {
+            if (!event.data?.ok) return;
+
+            window.removeEventListener("message", handler);
+            popup.close();
+
+            // force reload silent-refresh iframe
+            const iframe = document.querySelector("#silent-sso-iframe");
+            if (iframe) iframe.src = SILENT_SSO_URL;
+        };
+
+        window.addEventListener("message", handler);
     };
 
     // Logout fully (server + client)
@@ -57,6 +76,7 @@ export default function AuthProvider({ children }) {
     // Silent SSO on startup (iframe)
     useEffect(() => {
         const iframe = document.createElement("iframe");
+        iframe.id = "silent-sso-iframe";
         iframe.src = SILENT_SSO_URL;
         iframe.style.display = "none";
         document.body.appendChild(iframe);
