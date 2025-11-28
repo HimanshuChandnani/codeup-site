@@ -46,8 +46,8 @@ export default function AuthProvider({ children }) {
         const redirect = window.location.origin;
         const height = 600;
         const width = 500;
-        const left = (screen.availWidth - width) / 2;
-        const top = (screen.availHeight - height) / 2;
+        const left = (window.screen.availWidth - width) / 2;
+        const top = (window.screen.availHeight - height) / 2;
 
         const popup = window.open(`${GOOGLE_LOGIN_URL}?redirect=${redirect}`, "popup", `width=${width},height=${height},top=${top},left=${left}`);
         if (!popup) return alert("Popup blocked! Enable popups to sign in.");
