@@ -74,6 +74,8 @@ export default function AuthProvider({ children }) {
     };
 
     // Silent SSO on startup (iframe)
+    const iframeRef = React.useRef(null);
+
     useEffect(() => {
         const iframe = document.createElement("iframe");
         iframe.id = "silent-sso-iframe";
@@ -81,15 +83,15 @@ export default function AuthProvider({ children }) {
         iframe.style.display = "none";
         document.body.appendChild(iframe);
 
+        iframeRef.current = iframe;
+
         const handler = (event) => {
             if (!event.data) return;
 
             // SSO success
             if (event.data.token) {
                 storeToken(event.data.token);
-
                 if (event.data.user) storeUser(event.data.user);
-
                 setLoading(false);
             }
 
@@ -108,15 +110,26 @@ export default function AuthProvider({ children }) {
         };
     }, []);
 
-    // Manual token refresh
     const refresh = useCallback(async () => {
-        const data = await refreshAccessToken();
-        if (!data) return null;
+        await refreshAccessToken();
 
-        storeToken(data.accessToken);
-        storeUser(data.user);
+        if (iframeRef.current) {
+            iframeRef.current.src = SILENT_SSO_URL;
+        }
 
-        return data.accessToken;
+        const newToken = await new Promise((resolve) => {
+            const handler = (event) => {
+                if (event.data?.token) {
+                    window.removeEventListener("message", handler);
+                    resolve(event.data.token);
+                }
+            };
+            window.addEventListener("message", handler);
+        });
+
+        storeToken(newToken);
+
+        return newToken;
     }, []);
 
     useEffect(() => {

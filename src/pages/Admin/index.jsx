@@ -7,9 +7,10 @@ import UserQueries from "../../component/admin/UserQueries";
 import Wrapper from "./style";
 import Academy from "../../component/admin/Acadamy";
 import NotifyUsers from "../../component/admin/NoifyUsers";
-import { UserCheck, Users, LucideFileQuestion, GraduationCap, Bell } from "lucide-react";
+import { UserCheck, Users, LucideFileQuestion, GraduationCap, Bell, Calendar } from "lucide-react";
 import { useAuth } from "../../auth/useAuth";
 import { CodeupButton } from "../../component/StyledComponents/style";
+import Timesheets from "../../component/admin/Timesheets";
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -50,6 +51,8 @@ const AdminPage = () => {
                 return <Academy />;
             case "notify":
                 return <NotifyUsers />;
+            case "timesheets":
+                return <Timesheets />;
             default:
                 return <Roles />;
         }
@@ -61,6 +64,7 @@ const AdminPage = () => {
         { eventKey: "userQueries", label: "User Queries", phone: "Queries", icon: <LucideFileQuestion /> },
         { eventKey: "academy", label: "Academy", phone: "Academy", icon: <GraduationCap /> },
         { eventKey: "notify", label: "Notify Users", phone: "Notify", icon: <Bell /> },
+        { eventKey: "timesheets", label: "Timesheets", phone: "Timesheets", icon: <Calendar /> },
     ];
 
     return (

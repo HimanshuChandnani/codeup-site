@@ -1,25 +1,21 @@
+import { api } from "./apiClient";
 import { REFRESH_URL, LOGOUT_URL } from "./constants";
 
 export async function refreshAccessToken() {
     try {
-        const res = await fetch(REFRESH_URL, {
-            method: "GET",
-            credentials: "include", // IMPORTANT to send cookies
+        await api.get(REFRESH_URL, {
+            withCredentials: true,
+            skipAuth: true,
         });
-
-        if (!res.ok) return null;
-
-        return await res.json(); // { accessToken, user }
-    } catch (e) {
-        return null;
-    }
+    } catch {}
+    return true;
 }
 
 export async function logoutServer() {
     try {
-        await fetch(LOGOUT_URL, {
-            method: "POST",
-            credentials: "include",
+        await api.post(LOGOUT_URL, null, {
+            withCredentials: true,
+            skipAuth: true,
         });
     } catch (err) {}
 }
