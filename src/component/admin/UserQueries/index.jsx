@@ -30,7 +30,7 @@ const UserQueries = () => {
     }, []);
 
     return (
-        <Container className="my-4">
+        <div className="my-4">
             {/* <h3 className="mb-4">User Questions</h3> */}
 
             {loading && (
@@ -68,7 +68,7 @@ const UserQueries = () => {
                     </tbody>
                 </Table>
             )}
-        </Container>
+        </div>
     );
 };
 

@@ -110,6 +110,7 @@ export default function AuthProvider({ children }) {
         };
     }, []);
 
+    // Manual token refresh
     const refresh = useCallback(async () => {
         await refreshAccessToken();
 

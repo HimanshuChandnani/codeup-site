@@ -26,6 +26,7 @@ const Timesheets = () => {
     const [page, setPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState(null);
     const [timesheetDetails, setTimesheetDetails] = useState(null);
+    const [loadingDetails, setLoadingDetails] = useState(false);
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -55,6 +56,8 @@ const Timesheets = () => {
 
     useEffect(() => {
         const fetchTimesheet = async (userId) => {
+            setTimesheetDetails(null);
+            setLoadingDetails(true);
             try {
                 const res = await api.get(`timesheet?userId=${userId}`);
                 const data = res.data;
@@ -70,6 +73,7 @@ const Timesheets = () => {
                 console.error(e);
                 setTimesheetDetails(null);
             }
+            setLoadingDetails(false);
         };
         if (selectedUser) {
             fetchTimesheet(selectedUser.id);
@@ -134,7 +138,7 @@ const Timesheets = () => {
     return (
         <Wrapper>
             <div className="">
-                <div className="row row-gap-3 mb-3">
+                <div className="row g-2 mb-2">
                     <div className="col-lg-6">
                         <input
                             className="form-control w-100"
@@ -156,9 +160,9 @@ const Timesheets = () => {
                     <p>Loading...</p>
                 ) : users.length > 0 ? (
                     <>
-                        <p className="fw-medium mb-2">Total results: {totalUsers}</p>
-                        <div className="d-flex gap-3 pb-3">
-                            <div className="d-flex flex-column gap-3 flex-fill">
+                        <p className="fw-medium mb-1">Total results: {totalUsers}</p>
+                        <div className="d-flex gap-2 pb-2">
+                            <div className="d-flex flex-column gap-2 flex-1">
                                 {users.map((user, index) => (
                                     <button key={index} className="rounded p-3 shadow-sm user-button" onClick={() => setSelectedUser(user)}>
                                         <div className="name">{user.name}</div>
@@ -167,7 +171,7 @@ const Timesheets = () => {
                                 ))}
                             </div>
                             {selectedUser && (
-                                <div className="d-flex flex-column gap-3 bg-white rounded shadow-sm p-3 flex-fill timesheet-details">
+                                <div className="d-flex flex-column gap-3 bg-white rounded shadow-sm p-3 w-100 timesheet-details">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5 className="mb-0">{selectedUser.name}</h5>
                                         <CloseButton onClick={() => setSelectedUser(null)} />
@@ -222,6 +226,8 @@ const Timesheets = () => {
                                                     </div>
                                                 );
                                             })
+                                        ) : loadingDetails ? (
+                                            <p>Loading...</p>
                                         ) : (
                                             <p>No Details available for this user</p>
                                         )}

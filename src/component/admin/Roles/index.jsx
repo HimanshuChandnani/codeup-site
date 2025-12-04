@@ -159,7 +159,7 @@ const Roles = () => {
 
     return (
         <div className="">
-            <div className="row row-gap-3 mb-3">
+            <div className="row g-2 mb-2">
                 <div className="col-lg-6">
                     <input
                         className="form-control w-100"
@@ -181,8 +181,8 @@ const Roles = () => {
                 <p>Loading...</p>
             ) : users.length > 0 ? (
                 <>
-                    <p className="fw-medium mb-2">Total results: {totalUsers}</p>
-                    <div className="d-flex flex-column gap-3 pb-3">
+                    <p className="fw-medium mb-1">Total results: {totalUsers}</p>
+                    <div className="d-flex flex-column gap-2 pb-3">
                         {users.map((user, index) => (
                             <Fragment key={user.id}>
                                 <RoleCard user={user} handleRoleChange={handleRoleChange} />

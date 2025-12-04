@@ -242,8 +242,8 @@ const Academy = () => {
     };
 
     return (
-        <div className="container pb-4">
-            <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="pb-4">
+            <div className="d-flex justify-content-between align-items-center mb-2">
                 {/* <span></span> */}
                 <CodeupButton onClick={() => setShowModal(true)}>Create New</CodeupButton>
             </div>

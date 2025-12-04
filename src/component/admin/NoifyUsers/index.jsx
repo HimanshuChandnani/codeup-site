@@ -32,7 +32,7 @@ const NotifyUsers = () => {
         // console.log("Submitted data:", formData);
     };
     return (
-        <div className="container pb-4">
+        <div className="pb-4">
             {/* <h3 className="mb-3">Notify Users</h3> */}
             <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
                 {/* Title */}

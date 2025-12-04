@@ -64,8 +64,8 @@ const CreatorApproval = () => {
     }, [filterStatus]);
 
     return (
-        <div className="container py-4">
-            <div className="row row-gap-3 mb-4">
+        <div className="pb-4">
+            <div className="row g-2 mb-2">
                 {/* <Form.Select style={{ maxWidth: 200 }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                     <option value="all">All Statuses</option>
                     <option value="pending">Pending</option>
