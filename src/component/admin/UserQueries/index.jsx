@@ -53,7 +53,7 @@ const UserQueries = () => {
                                 <p className="small m-0 text-secondary">{new Date(q.created_at).toLocaleString()}</p>
                             </div>
                             <hr className="my-1" />
-                            <p className="m-0 small">{q.query}</p>
+                            <p className="m-0 small text-pre text-break">{q.query}</p>
                         </div>
                     ))}
                 </div>
