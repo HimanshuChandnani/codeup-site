@@ -4,6 +4,7 @@ import { codeupAlert } from "../../Alert";
 import RoleCard from "../RoleCard";
 import { useAuth } from "../../../auth/useAuth";
 import { api } from "../../../auth/apiClient";
+import { Spinner } from "react-bootstrap";
 
 const roleOptions = [
     { value: "user", label: "User", isFixed: true },
@@ -178,7 +179,9 @@ const Roles = () => {
             </div>
 
             {loading ? (
-                <p>Loading...</p>
+                <div className="text-center">
+                    <Spinner animation="border" variant="secondary" />
+                </div>
             ) : users.length > 0 ? (
                 <>
                     <p className="fw-medium mb-1">Total results: {totalUsers}</p>

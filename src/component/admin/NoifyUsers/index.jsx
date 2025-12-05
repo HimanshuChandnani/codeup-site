@@ -34,7 +34,7 @@ const NotifyUsers = () => {
     return (
         <div className="pb-4">
             {/* <h3 className="mb-3">Notify Users</h3> */}
-            <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-white">
+            <Form onSubmit={handleSubmit} className="p-4 rounded shadow-sm bg-white">
                 {/* Title */}
                 <Form.Group className="mb-3" controlId="formTitle">
                     <Form.Label>
@@ -85,7 +85,7 @@ const NotifyUsers = () => {
                 </Form.Group>
 
                 {/* Submit */}
-                <CodeupButton type="submit" className="mt-2">
+                <CodeupButton type="submit" className="">
                     Send
                 </CodeupButton>
             </Form>

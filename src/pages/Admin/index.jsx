@@ -51,7 +51,7 @@ const AdminPage = () => {
                 return <Academy />;
             case "notify":
                 return <NotifyUsers />;
-            case "timesheets":
+            case "timesheet":
                 return <Timesheets />;
             default:
                 return <Roles />;
@@ -64,7 +64,7 @@ const AdminPage = () => {
         { eventKey: "userQueries", label: "User Queries", phone: "Queries", icon: <LucideFileQuestion /> },
         { eventKey: "academy", label: "Academy", phone: "Academy", icon: <GraduationCap /> },
         { eventKey: "notify", label: "Notify Users", phone: "Notify", icon: <Bell /> },
-        { eventKey: "timesheets", label: "Timesheets", phone: "Sheets", icon: <Calendar /> },
+        { eventKey: "timesheet", label: "Timesheet", phone: "Sheet", icon: <Calendar /> },
     ];
 
     return (

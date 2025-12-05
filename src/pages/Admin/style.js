@@ -86,7 +86,8 @@ const Wrapper = styled.div`
     .admin-bottom-nav .nav-link.active {
         color: #0d6efd !important;
         font-weight: 600;
-        border-bottom: 2px solid #0d6efd !important;
+        /* border-bottom: 2px solid #0d6efd !important; */
+        box-shadow: 0 -3px 0 #0d6efd inset;
     }
 
     /* Add padding so content isn't hidden behind bottom nav */

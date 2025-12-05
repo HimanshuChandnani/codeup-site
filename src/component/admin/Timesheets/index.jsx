@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import Wrapper from "./style";
 import { api } from "../../../auth/apiClient";
 import Select from "react-select";
-import { CloseButton } from "react-bootstrap";
+import { CloseButton, Spinner } from "react-bootstrap";
 
 const roleOptions = [
     { value: "user", label: "User", isFixed: true },
@@ -157,16 +157,18 @@ const Timesheets = () => {
                 </div>
 
                 {loading ? (
-                    <p>Loading...</p>
+                    <div className="text-center">
+                        <Spinner animation="border" variant="secondary" />
+                    </div>
                 ) : users.length > 0 ? (
                     <>
-                        <p className="fw-medium mb-1">Total results: {totalUsers}</p>
+                        <p className="fw-medium mb-1 small">Total results: {totalUsers}</p>
                         <div className="d-flex gap-2 pb-2">
                             <div className="d-flex flex-column gap-2 flex-1">
                                 {users.map((user, index) => (
                                     <button key={index} className="rounded p-3 shadow-sm user-button" onClick={() => setSelectedUser(user)}>
-                                        <div className="name">{user.name}</div>
-                                        <div className="email small">{user.email}</div>
+                                        <div className="name fw-medium">{user.name}</div>
+                                        <div className="email small text-secondary">{user.email}</div>
                                     </button>
                                 ))}
                             </div>
@@ -227,7 +229,9 @@ const Timesheets = () => {
                                                 );
                                             })
                                         ) : loadingDetails ? (
-                                            <p>Loading...</p>
+                                            <div className="text-center">
+                                                <Spinner animation="border" variant="secondary" />
+                                            </div>
                                         ) : (
                                             <p>No Details available for this user</p>
                                         )}

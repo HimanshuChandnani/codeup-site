@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Modal, Button, Form, Table } from "react-bootstrap";
+import { Modal, Button, Form, Table, Spinner } from "react-bootstrap";
 import AsyncSelect from "react-select/async";
 import debounce from "lodash/debounce";
 import { CodeupButton } from "../../StyledComponents/style";
 import { codeupAlert } from "../../Alert";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { ArrowDown, ArrowRight, GraduationCap, PencilIcon, Plus, TrashIcon, User } from "lucide-react";
 import styled from "styled-components";
 import { useAuth } from "../../../auth/useAuth";
 import { api } from "../../../auth/apiClient";
@@ -19,7 +19,7 @@ const ResponsiveCodeupButton = styled(CodeupButton)`
 `;
 
 const Academy = () => {
-    const [academies, setAcademies] = useState([]);
+    const [academies, setAcademies] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [editAcademy, setEditAcademy] = useState(null);
     const defaultForm = { name: "", description: "", startDate: "", endDate: "", institution: "", contactNumber: "" };
@@ -241,14 +241,55 @@ const Academy = () => {
         }
     };
 
+    if (!academies)
+        return (
+            <div className="text-center">
+                <Spinner animation="border" variant="secondary" />
+            </div>
+        );
+
     return (
         <div className="pb-4">
-            <div className="d-flex justify-content-between align-items-center mb-2">
+            <div className="d-flex justify-content-between align-items-center position-fixed bottom-0 end-0 p-4 pe-2 pe-md-4 mb-5 mb-md-0 z-3">
                 {/* <span></span> */}
-                <CodeupButton onClick={() => setShowModal(true)}>Create New</CodeupButton>
+                <CodeupButton onClick={() => setShowModal(true)} className="p-3 rounded-circle lh-1">
+                    <Plus size={20} strokeWidth={3} />
+                </CodeupButton>
             </div>
 
-            <div style={{ overflowX: "auto" }} className="mb-2">
+            <div className="d-flex gap-2 flex-column">
+                {academies.map((a, index) => (
+                    <div className="bg-white shadow-sm rounded p-2" key={index}>
+                        <div className="d-flex justify-content-between align-items-start gap-2 flex-column flex-sm-row">
+                            <div className="">
+                                <p className="m-0 fw-medium">{a.name}</p>
+                                <p className="small m-0">{a.institution}</p>
+                                <p className="small m-0">{a.contactNumber}</p>
+                                <div className="d-flex align-items-center small gap-2">
+                                    <span style={{ whiteSpace: "nowrap" }}>{formatDateForInput(a.startDate)}</span>
+                                    <ArrowRight size={16} />
+                                    <span style={{ whiteSpace: "nowrap" }}>{formatDateForInput(a.endDate)}</span>
+                                </div>
+                            </div>
+                            <div className="d-flex gap-2 justify-content-end align-self-end align-self-sm-start">
+                                <Button variant="warning" size="sm" className="lh-1" onClick={() => handleEdit(a)}>
+                                    <PencilIcon size={16} />
+                                </Button>
+                                <Button variant="danger" size="sm" className="lh-1" onClick={() => handleDelete(a.id)}>
+                                    <TrashIcon size={16} />
+                                </Button>
+                                <Button variant="info" size="sm" className="lh-1" onClick={() => fetchStudents(a.id)}>
+                                    <User size={16} />
+                                </Button>
+                                <Button variant="dark" size="sm" className="lh-1" onClick={() => fetchMentors(a.id)}>
+                                    <GraduationCap size={16} />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            {/* <div style={{ overflowX: "auto" }} className="mb-2">
                 <Table className="m-0" bordered hover responsive>
                     <thead className="table-light">
                         <tr>
@@ -277,10 +318,10 @@ const Academy = () => {
                                             <TrashIcon size={16} />
                                         </Button>
                                         <Button variant="info" size="sm" className="me-2" onClick={() => fetchStudents(a.id)}>
-                                            Students
+                                            <User size={16} />
                                         </Button>
                                         <Button variant="dark" size="sm" onClick={() => fetchMentors(a.id)}>
-                                            Mentors
+                                            <GraduationCap size={16} />
                                         </Button>
                                     </div>
                                 </td>
@@ -288,7 +329,7 @@ const Academy = () => {
                         ))}
                     </tbody>
                 </Table>
-            </div>
+            </div> */}
 
             <Modal
                 show={showModal}
@@ -401,7 +442,7 @@ const Academy = () => {
                                 className="flex-grow-1"
                             />
                             <ResponsiveCodeupButton type="submit" className="" disabled={!selectedUser}>
-                                Add Student
+                                Add
                             </ResponsiveCodeupButton>
                         </form>
                     </div>
@@ -464,7 +505,7 @@ const Academy = () => {
                                 className="flex-grow-1"
                             />
                             <ResponsiveCodeupButton type="submit" disabled={!selectedUser}>
-                                Add Mentor
+                                Add
                             </ResponsiveCodeupButton>
                         </form>
                     </div>

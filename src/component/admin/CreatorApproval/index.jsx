@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, Button, Form, Spinner } from "react-bootstrap";
+import { Table, Button, Form, Spinner, Card } from "react-bootstrap";
 import Select from "react-select";
 import { useAuth } from "../../../auth/useAuth";
 import { api } from "../../../auth/apiClient";
+import { Check, Delete, Info, Loader, Trash } from "lucide-react";
 
 const filterOptions = [
     { value: "all", label: "All Status" },
@@ -21,6 +22,7 @@ const CreatorApproval = () => {
     const [actionLoading, setActionLoading] = useState({});
     const BASE_URL = process.env.REACT_APP_API_URL;
     const { accessToken } = useAuth();
+    const [expandedCards, setExpandedCards] = useState({});
 
     useEffect(() => {
         fetchCreators();
@@ -81,76 +83,86 @@ const CreatorApproval = () => {
             </div>
 
             {loading ? (
-                <div className="text-center py-5">
+                <div className="text-center">
                     <Spinner animation="border" />
                 </div>
             ) : (
-                <Table striped bordered hover responsive>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            {/* <th>Email</th> */}
-                            <th>Mobile</th>
-                            <th>LinkedIn</th>
-                            <th>Job Title</th>
-                            <th>Company</th>
-                            <th>Experience</th>
-                            <th>Teaching Exp.</th>
-                            <th>Status</th>
-                            <th>Created At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredCreators.length === 0 ? (
-                            <tr>
-                                <td colSpan="12" className="text-center text-muted">
-                                    No matching creators found.
-                                </td>
-                            </tr>
-                        ) : (
-                            filteredCreators.map((creator, index) => (
-                                <tr key={creator.id}>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                        <div>{creator.name}</div>
-                                        <div className="small text-secondary">{creator.email}</div>
-                                    </td>
-                                    {/* <td>{creator.email}</td> */}
-                                    <td>{creator.mobile}</td>
-                                    <td>
-                                        <a href={creator.linkedin} target="_blank" rel="noopener noreferrer">
-                                            LinkedIn
-                                        </a>
-                                    </td>
-                                    <td>{creator.job_title}</td>
-                                    <td>{creator.company}</td>
-                                    <td>{creator.experience_years} yrs</td>
-                                    <td style={{ maxWidth: 300, overflowWrap: "break-word" }}>{creator.teaching_experience}</td>
-                                    <td>
-                                        <span className={`badge bg-${getStatusColor(creator.status)}`}>{creator.status}</span>
-                                    </td>
-                                    <td style={{ whiteSpace: "nowrap" }}>{new Date(creator.created_at).toLocaleString()}</td>
-                                    <td>
-                                        <div className="d-flex">
-                                            {creator.status !== "approved" && (
-                                                <Button variant="success" size="sm" className="me-2" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "approve", creator.email)}>
-                                                    {actionLoading[creator.id] ? "Approving..." : "Approve"}
-                                                </Button>
-                                            )}
-                                            {creator.status !== "rejected" && (
-                                                <Button variant="danger" size="sm" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "reject")}>
-                                                    {actionLoading[creator.id] ? "Rejecting..." : "Reject"}
-                                                </Button>
+                <div className="d-flex flex-column gap-2 users">
+                    {filteredCreators.length === 0 ? (
+                        <div className="text-center text-muted">No matching creators found.</div>
+                    ) : (
+                        filteredCreators.map((creator, index) => {
+                            const isOpen = expandedCards[creator.id] || false;
+
+                            return (
+                                <div className="" key={creator.id}>
+                                    <div className="shadow-sm h-100 bg-white rounded">
+                                        <div className="p-2">
+                                            {/* Header row with name & info button */}
+                                            <div className="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                                <div className="overflow-hidden">
+                                                    <div className="d-flex gap-2 align-items-center">
+                                                        <a href={creator.linkedin} className="text-black text-decoration-none">
+                                                            <p className="mb-0 fw-medium">{creator.name} </p>
+                                                        </a>
+                                                        <span className={`badge lh-sm bg-${getStatusColor(creator.status)}`} style={{ fontSize: "0.6rem" }}>
+                                                            {creator.status}
+                                                        </span>
+                                                    </div>
+
+                                                    <div className="text-secondary small text-truncate">{creator.email}</div>
+                                                </div>
+
+                                                <div className="d-flex justify-content-end flex-fill gap-2">
+                                                    <Button
+                                                        variant="light"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setExpandedCards((prev) => ({
+                                                                ...prev,
+                                                                [creator.id]: !prev[creator.id],
+                                                            }))
+                                                        }
+                                                    >
+                                                        <Info size={18} />
+                                                    </Button>
+                                                    {creator.status !== "approved" && (
+                                                        <Button variant="success" size="sm" className="lh-1" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "approve", creator.email)}>
+                                                            {actionLoading[creator.id] ? <Loader size={16} /> : <Check size={16} />}
+                                                        </Button>
+                                                    )}
+
+                                                    {creator.status !== "rejected" && (
+                                                        <Button variant="danger" size="sm" className="lh-1" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "reject")}>
+                                                            {actionLoading[creator.id] ? <Loader size={16} /> : <Trash size={16} />}
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {isOpen && (
+                                                <div className="small mt-2">
+                                                    {[
+                                                        { label: "Mobile", value: creator.mobile },
+                                                        { label: "Job Title", value: creator.job_title },
+                                                        { label: "Comany", value: creator.company },
+                                                        { label: "Experience", value: `${creator.experience_years} yrs` },
+                                                        { label: "Teaching Exp", value: creator.teaching_experience },
+                                                        { label: "Created", value: new Date(creator.created_at).toLocaleString() },
+                                                    ].map(({ label, value }, index) => (
+                                                        <div key={index}>
+                                                            <span className="fw-medium">{label}:</span> {value}
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             )}
                                         </div>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </Table>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    )}
+                </div>
             )}
         </div>
     );
