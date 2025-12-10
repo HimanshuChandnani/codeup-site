@@ -92,7 +92,7 @@ const AdminPage = () => {
                         <Nav.Item key={tab.eventKey}>
                             <Nav.Link eventKey={tab.eventKey} className="d-flex flex-column align-items-center justify-content-center">
                                 <span>{tab.icon}</span>
-                                <span style={{ fontSize: 11 }}>{tab.phone}</span>
+                                <span style={{ fontSize: 11, marginTop: 2 }}>{tab.phone}</span>
                             </Nav.Link>
                         </Nav.Item>
                     ))}
