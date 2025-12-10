@@ -184,7 +184,7 @@ const Roles = () => {
                 </div>
             ) : users.length > 0 ? (
                 <>
-                    <p className="fw-medium mb-1">Total results: {totalUsers}</p>
+                    <p className="fw-bold small mb-1">Total results: {totalUsers}</p>
                     <div className="d-flex flex-column gap-2 pb-3">
                         {users.map((user, index) => (
                             <Fragment key={user.id}>

@@ -162,12 +162,12 @@ const Timesheets = () => {
                     </div>
                 ) : users.length > 0 ? (
                     <>
-                        <p className="fw-medium mb-1">Total results: {totalUsers}</p>
+                        <p className="fw-bold small mb-1">Total results: {totalUsers}</p>
                         <div className="d-flex gap-2 pb-2">
                             <div className="d-flex flex-column gap-2 flex-1">
                                 {users.map((user, index) => (
                                     <button key={index} className="rounded p-3 shadow-sm user-button" onClick={() => setSelectedUser(user)}>
-                                        <div className="name">{user.name}</div>
+                                        <div className="name fw-medium">{user.name}</div>
                                         <div className="email small text-secondary">{user.email}</div>
                                     </button>
                                 ))}
