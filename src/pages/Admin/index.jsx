@@ -70,7 +70,7 @@ const AdminPage = () => {
     return (
         <Wrapper>
             {/* Header */}
-            <div className="mb-3 py-2 bg-white">
+            <div className="mb-2 py-2 bg-white">
                 <div className="container d-flex align-items-center justify-content-between">
                     <h3 className="mb-0">Admin Panel</h3>
                     {user ? (
