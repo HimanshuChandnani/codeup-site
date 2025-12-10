@@ -439,7 +439,7 @@ const Academy = () => {
                                 onChange={setSelectedUser}
                                 getOptionLabel={(e) => (
                                     <div className="d-flex gap-2">
-                                        <img src={e.profile} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
+                                        <img src={e.picture} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
                                         <div>
                                             <div className="fw-medium m-0 lh-1">{e.name}</div> <span className="small text-secondary">({e.email})</span>
                                         </div>
@@ -509,7 +509,7 @@ const Academy = () => {
                                 onChange={setSelectedUser}
                                 getOptionLabel={(e) => (
                                     <div className="d-flex gap-2">
-                                        <img src={e.profile} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
+                                        <img src={e.picture} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
                                         <div>
                                             <div className="fw-medium m-0 lh-1">{e.name}</div> <span className="small text-secondary">({e.email})</span>
                                         </div>
