@@ -14,8 +14,13 @@ const roleOptions = [
 const RoleCard = ({ user, handleRoleChange }) => {
     return (
         <Wrapper className="rounded bg-white p-3 shadow-sm">
-            <div className="name fw-medium">{user.name}</div>
-            <div className="email mb-2 text-secondary">{user.email}</div>
+            <div className="d-flex gap-2">
+                <img src={user.picture} alt={user.name} className="pfp" />
+                <div>
+                    <div className="name fw-medium">{user.name}</div>
+                    <div className="email mb-2 text-secondary">{user.email}</div>
+                </div>
+            </div>
             <Select
                 isMulti
                 //

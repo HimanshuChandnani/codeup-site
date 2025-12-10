@@ -437,7 +437,14 @@ const Academy = () => {
                                 placeholder="Search user by name or email..."
                                 value={selectedUser}
                                 onChange={setSelectedUser}
-                                getOptionLabel={(e) => `${e.name} (${e.email})`}
+                                getOptionLabel={(e) => (
+                                    <div className="d-flex gap-2">
+                                        <img src={e.profile} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
+                                        <div>
+                                            <div className="fw-medium m-0 lh-1">{e.name}</div> <span className="small text-secondary">({e.email})</span>
+                                        </div>
+                                    </div>
+                                )}
                                 getOptionValue={(e) => e.id}
                                 className="flex-grow-1"
                             />
@@ -500,7 +507,14 @@ const Academy = () => {
                                 placeholder="Search user by name or email..."
                                 value={selectedUser}
                                 onChange={setSelectedUser}
-                                getOptionLabel={(e) => `${e.name} (${e.email})`}
+                                getOptionLabel={(e) => (
+                                    <div className="d-flex gap-2">
+                                        <img src={e.profile} alt={e.name} style={{ width: 36, height: 36, borderRadius: 100, backgroundColor: "#eee" }} />
+                                        <div>
+                                            <div className="fw-medium m-0 lh-1">{e.name}</div> <span className="small text-secondary">({e.email})</span>
+                                        </div>
+                                    </div>
+                                )}
                                 getOptionValue={(e) => e.id}
                                 className="flex-grow-1"
                             />

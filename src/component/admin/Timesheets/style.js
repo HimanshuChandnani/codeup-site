@@ -15,6 +15,13 @@ const Wrapper = styled.div`
         &:hover {
             background-color: #f0f0f0;
         }
+
+        .pfp {
+            height: 40px;
+            width: 40px;
+            border-radius: 100%;
+            background-color: #eee;
+        }
     }
 
     .timesheet-details {
