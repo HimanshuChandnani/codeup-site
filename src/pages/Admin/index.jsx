@@ -59,12 +59,12 @@ const AdminPage = () => {
     };
 
     const tabs = [
-        { eventKey: "roles", label: "Roles", phone: "Roles", icon: <Users /> },
-        { eventKey: "creatorApproval", label: "Creator Approval", phone: "Creator", icon: <UserCheck /> },
-        { eventKey: "userQueries", label: "User Queries", phone: "Queries", icon: <LucideFileQuestion /> },
-        { eventKey: "academy", label: "Academy", phone: "Academy", icon: <GraduationCap /> },
-        { eventKey: "notify", label: "Notify Users", phone: "Notify", icon: <Bell /> },
-        { eventKey: "timesheet", label: "Timesheet", phone: "Sheet", icon: <Calendar /> },
+        { eventKey: "roles", label: "Roles", phone: "Roles", icon: <Users />, title: "Role Management", description: "Manage user roles and permissions" },
+        { eventKey: "creatorApproval", label: "Creator Approval", phone: "Creator", icon: <UserCheck />, title: "Creator Management", description: "Review and manage creator applications" },
+        { eventKey: "userQueries", label: "User Queries", phone: "Queries", icon: <LucideFileQuestion />, title: "User Query Management", description: "Manage user queries" },
+        { eventKey: "academy", label: "Academy", phone: "Academy", icon: <GraduationCap />, title: "Academy Management", description: "Create academy and manage students" },
+        { eventKey: "notify", label: "Notify Users", phone: "Notify", icon: <Bell />, title: "Notify Users", description: "Notify anything to your users" },
+        { eventKey: "timesheet", label: "Timesheet", phone: "Sheet", icon: <Calendar />, title: "Timesheet Management", description: "Review and manage user timesheets" },
     ];
 
     return (
@@ -72,7 +72,11 @@ const AdminPage = () => {
             {/* Header */}
             <div className="mb-2 py-2 bg-white">
                 <div className="container d-flex align-items-center justify-content-between">
-                    <h3 className="mb-0">Admin Panel</h3>
+                    <div>
+                        <div className="fw-medium h5 m-0">{tabs.find((tab) => tab.eventKey === key).title}</div>
+                        <div className="desc text-secondary">{tabs.find((tab) => tab.eventKey === key).description}</div>
+                    </div>
+                    {/* <h3 className="mb-0">Admin Panel</h3> */}
                     {user ? (
                         <NavDropdown title={<img src={user.picture} className="rounded-circle object-fit-cover ms-1" alt="Profile" height="40" width="40" />} id="profile-dropdown" align="end">
                             <NavDropdown.Item href="#" onClick={logout}>

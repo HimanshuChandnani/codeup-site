@@ -17,6 +17,10 @@ const Wrapper = styled.div`
         }
     }
 
+    .desc {
+        font-size: 11px;
+    }
+
     /* @media (max-width: 768px) {
         .admin-tabs-wrapper {
             position: fixed;

@@ -6,6 +6,7 @@ import Select from "react-select";
 import { useAuth } from "../../../auth/useAuth";
 import { api } from "../../../auth/apiClient";
 import { Check, Delete, Info, Loader, Trash } from "lucide-react";
+import Wrapper from "./style";
 
 const filterOptions = [
     { value: "all", label: "All Status" },
@@ -66,7 +67,7 @@ const CreatorApproval = () => {
     }, [filterStatus]);
 
     return (
-        <div className="pb-4">
+        <Wrapper className="pb-4">
             <div className="row g-2 mb-2">
                 {/* <Form.Select style={{ maxWidth: 200 }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                     <option value="all">All Statuses</option>
@@ -127,15 +128,15 @@ const CreatorApproval = () => {
                                                         <Info size={18} />
                                                     </Button>
                                                     {creator.status !== "approved" && (
-                                                        <Button variant="success" size="sm" className="lh-1" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "approve", creator.email)}>
+                                                        <button className="lh-1 btn btn-sm btn-success" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "approve", creator.email)}>
                                                             {actionLoading[creator.id] ? <Loader size={16} /> : <Check size={16} />}
-                                                        </Button>
+                                                        </button>
                                                     )}
 
                                                     {creator.status !== "rejected" && (
-                                                        <Button variant="danger" size="sm" className="lh-1" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "reject")}>
+                                                        <button className="lh-1 btn btn-sm btn-danger" disabled={actionLoading[creator.id]} onClick={() => handleAction(creator.id, "reject")}>
                                                             {actionLoading[creator.id] ? <Loader size={16} /> : <Trash size={16} />}
-                                                        </Button>
+                                                        </button>
                                                     )}
                                                 </div>
                                             </div>
@@ -164,7 +165,7 @@ const CreatorApproval = () => {
                     )}
                 </div>
             )}
-        </div>
+        </Wrapper>
     );
 };
 
