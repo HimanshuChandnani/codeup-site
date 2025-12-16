@@ -5,6 +5,10 @@ const Wrapper = styled.div`
         flex: 1;
     }
 
+    .user-container {
+        max-width: 100%;
+    }
+
     .user-button {
         border: none;
         text-align: left;

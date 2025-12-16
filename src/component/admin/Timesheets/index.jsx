@@ -164,13 +164,13 @@ const Timesheets = () => {
                     <>
                         <p className="fw-bold small mb-1">Total results: {totalUsers}</p>
                         <div className="d-flex gap-2 pb-2">
-                            <div className="d-flex flex-column gap-2 flex-1">
+                            <div className="d-flex flex-column gap-2 flex-1 user-container">
                                 {users.map((user, index) => (
                                     <button key={index} className="rounded p-3 shadow-sm user-button d-flex gap-2" onClick={() => setSelectedUser(user)}>
                                         <img src={user.picture} alt={user.name} className="pfp" />
-                                        <div>
-                                            <div className="name fw-medium">{user.name}</div>
-                                            <div className="email small text-secondary">{user.email}</div>
+                                        <div className="overflow-hidden">
+                                            <div className="name fw-medium text-truncate">{user.name}</div>
+                                            <div className="email small text-secondary text-truncate">{user.email}</div>
                                         </div>
                                     </button>
                                 ))}
