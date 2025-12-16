@@ -28,6 +28,10 @@ const Wrapper = styled.div`
         }
     }
 
+    .email {
+        font-size: 0.8rem;
+    }
+
     .timesheet-details {
         max-height: calc(100dvh - 32px);
         position: sticky;
